@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#19BAA3</color>
+    <color name="colorPrimaryDark">#14A493</color>
+    <color name="colorAccent">#60B763</color>
+    <color name="colorOffer">#4CAF50</color>
+    <color name="android_blue_darker">#0077aa</color>
+    <color name="material_yellow_700">#FBC02D</color>
+
+    <color name="card_header">#16A890</color>
+
+    <color name="login_bk">#19BAA3</color>
+    <color name="button_blue">#264570</color>
+    <color name="button_surfie_green">#118E7C</color>
+    <color name="button_stiletto">#A53A3A</color>
+    <color name="button_mercury">#E5E5E5</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="mtd_bottom_shade">#19BAA3</color>
+
+    <color name="border_shade">#BCBDBF</color>
+    <color name="color_gallery">#EDEDED</color>
+
+
+</resources>

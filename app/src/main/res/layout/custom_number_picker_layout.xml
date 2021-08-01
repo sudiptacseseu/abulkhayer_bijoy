@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="30dp"
+    android:orientation="horizontal">
+
+    <Button
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:id="@+id/decrement"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:text="@string/decrement"
+        android:textColor="#ffffff"
+        android:background="@drawable/shape_numberpicker_button_left"
+        />
+
+    <EditText
+        android:id="@+id/display"
+        android:background="@drawable/shape_numberpicker_edittext"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:textColor="@color/text_color"
+        android:inputType="number"
+        android:maxLength="100"
+        android:gravity="center"/>
+
+
+    <Button
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:textSize="18sp"
+        android:textColor="#ffffff"
+        android:id="@+id/increment"
+        android:text="@string/increment"
+        android:background="@drawable/shape_numberpicker_button_right"
+        />
+
+</LinearLayout>

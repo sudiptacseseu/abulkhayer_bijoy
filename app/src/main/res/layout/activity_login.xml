@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:bind="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="obj"
+            type="com.android.abulkhayerbijoy.model.SRBasic" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:paddingBottom="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="30dp"
+            android:layout_marginBottom="20dp"
+            android:textSize="50sp"
+            android:textColor="@color/white"
+            android:text="বিজয় বীর">
+        </TextView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/curved_button_not_visited"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:paddingTop="50dp"
+            android:paddingBottom="50dp"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            android:gravity="center_horizontal">
+
+            <EditText
+                android:id="@+id/editText_UserId"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="25dp"
+                android:background="@drawable/rounded_edittext"
+                android:hint="ফোন নাম্বার"
+                android:inputType="phone"
+                android:paddingLeft="15dp"
+                android:text="@={obj.userID}" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/editTextPasswordLayout"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/rounded_edittext"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:paddingLeft="15dp"
+                app:hintAnimationEnabled="false"
+                app:hintEnabled="false"
+                app:passwordToggleEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editText_Password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:hint="পাসওয়ার্ড"
+                    android:inputType="textPassword"
+                    android:text="@={obj.password}" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/button_Login"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:text="লগ-ইন করুন"
+                android:textSize="20sp"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/curved_button">
+            </Button>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</layout>
+
+
