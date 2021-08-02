@@ -1,12 +1,11 @@
 package com.android.abulkhayerbijoy.model.promotion.promoinfo;
 
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.android.abulkhayerbijoy.database.DatabaseConstants;
-import com.android.abulkhayerbijoy.model.SKUDetail;
+import com.android.abulkhayerbijoy.model.SKU;
 import com.android.abulkhayerbijoy.model.promotion.Slab;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -58,7 +57,7 @@ public class TradePromotion {
     public String Color;
 
     @Ignore
-    public ArrayList<SKUDetail> skus;
+    public ArrayList<SKU> skus;
     @Ignore
     public ArrayList<Slab> slabs;
 

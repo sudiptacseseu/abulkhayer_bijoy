@@ -1,8 +1,8 @@
 package com.android.abulkhayerbijoy.utils;
 
-import com.android.abulkhayerbijoy.model.ChallanDetail;
-import com.android.abulkhayerbijoy.model.OrderDetail;
-import com.android.abulkhayerbijoy.model.OrderItemDetail;
+import com.android.abulkhayerbijoy.model.Challan;
+import com.android.abulkhayerbijoy.model.Order;
+import com.android.abulkhayerbijoy.model.OrderItem;
 import com.android.abulkhayerbijoy.model.SalesOrderPromotion;
 import com.android.abulkhayerbijoy.model.promotion.FreeOrDiscount;
 
@@ -11,9 +11,9 @@ import java.util.ArrayList;
 public class MemoHelper {
 
     private static MemoHelper instance;
-    private ArrayList<OrderItemDetail> orderItemDetails;
-    private ArrayList<OrderDetail> orderDetails;
-    private ArrayList<ChallanDetail> challanDetails;
+    private ArrayList<OrderItem> orderItemDetails;
+    private ArrayList<Order> orderDetails;
+    private ArrayList<Challan> challanDetails;
     private FreeOrDiscount freeOrDiscount;
     private ArrayList<SalesOrderPromotion> clpPromotions;
 
@@ -31,30 +31,30 @@ public class MemoHelper {
         return instance;
     }
 
-    public ArrayList<ChallanDetail> getChallanItems() {
+    public ArrayList<Challan> getChallanItems() {
         return challanDetails;
     }
 
-    public ArrayList<OrderItemDetail> getOrderItems() {
+    public ArrayList<OrderItem> getOrderItems() {
         return orderItemDetails;
     }
 
-    public ArrayList<OrderDetail> getOrderDetails() {
+    public ArrayList<Order> getOrderDetails() {
         return orderDetails;
     }
 
-    public void setChallanItems(ArrayList<ChallanDetail> challanDetails) {
+    public void setChallanItems(ArrayList<Challan> challanDetails) {
         this.challanDetails = challanDetails;
     }
 
-    public void setOrderItems(ArrayList<OrderItemDetail> orderItemDetails) {
+    public void setOrderItems(ArrayList<OrderItem> orderItemDetails) {
         this.orderItemDetails = orderItemDetails;
     }
 
     public double getOrderNetTotal() {
         double total = 0.0;
         if (orderItemDetails != null && orderItemDetails.size() > 0)
-            for (OrderItemDetail item : orderItemDetails) {
+            for (OrderItem item : orderItemDetails) {
                 total += item.orderQty * item.pcsRate;
             }
         return SystemHelper.formatDouble(total);
@@ -63,17 +63,17 @@ public class MemoHelper {
     public double getCashCollection() {
         double total = 0.0;
         if (orderItemDetails != null && orderItemDetails.size() > 0)
-            for (OrderItemDetail item : orderItemDetails) {
+            for (OrderItem item : orderItemDetails) {
                 total = item.orderQty;
             }
         return SystemHelper.formatDouble(total);
     }
 
-    public void setOrderDetails(ArrayList<OrderDetail> orderDetails) {
+    public void setOrderDetails(ArrayList<Order> orderDetails) {
         this.orderDetails = orderDetails;
     }
 
-    public void setChallanItem(ChallanDetail challanDetailItem) {
+    public void setChallanItem(Challan challanDetailItem) {
         if (this.challanDetails != null && challanDetails != null)
             this.challanDetails.add(challanDetailItem);
     }

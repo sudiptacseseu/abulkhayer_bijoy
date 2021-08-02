@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.abulkhayerbijoy.R;
 import com.android.abulkhayerbijoy.databinding.CustomOutletListItemLayoutBinding;
-import com.android.abulkhayerbijoy.model.OutletDetail;
+import com.android.abulkhayerbijoy.model.Outlet;
 import com.android.abulkhayerbijoy.utils.BanglaFontUtil;
 import com.android.abulkhayerbijoy.utils.SystemConstants;
 import com.android.abulkhayerbijoy.utils.SystemHelper;
@@ -20,14 +20,14 @@ import java.util.List;
 
 public class SalesOutletListAdapter extends RecyclerView.Adapter<SalesOutletListAdapter.MyViewHolder> {
 
-    private List<OutletDetail> itemList;
+    private List<Outlet> itemList;
     private LayoutInflater layoutInflater;
     private OrderItemListener listener;
     private BanglaFontUtil banglaUtil = null;
     private int status;
     public Context context;
 
-    public SalesOutletListAdapter(List<OutletDetail> itemList, OrderItemListener listener, int status) {
+    public SalesOutletListAdapter(List<Outlet> itemList, OrderItemListener listener, int status) {
         this.itemList = itemList;
         this.listener = listener;
         this.status = status;
@@ -47,7 +47,7 @@ public class SalesOutletListAdapter extends RecyclerView.Adapter<SalesOutletList
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         banglaUtil = new BanglaFontUtil();
-        OutletDetail item = itemList.get(position);
+        Outlet item = itemList.get(position);
         holder.binding.setObj(itemList.get(position));
 
         if (status == SystemConstants.STATUS_VISITED) {
@@ -77,7 +77,7 @@ public class SalesOutletListAdapter extends RecyclerView.Adapter<SalesOutletList
     }
 
     public interface OrderItemListener {
-        void onOrderItemClicked(OutletDetail DeliveryManOrder);
+        void onOrderItemClicked(Outlet DeliveryManOrder);
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

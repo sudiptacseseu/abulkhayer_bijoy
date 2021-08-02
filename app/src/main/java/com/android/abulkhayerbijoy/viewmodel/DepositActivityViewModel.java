@@ -5,8 +5,8 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 
 import com.android.abulkhayerbijoy.model.CashDeposit;
-import com.android.abulkhayerbijoy.model.ChallanDetail;
-import com.android.abulkhayerbijoy.model.SKUDetail;
+import com.android.abulkhayerbijoy.model.Challan;
+import com.android.abulkhayerbijoy.model.SKU;
 import com.android.abulkhayerbijoy.model.SRBasic;
 import com.android.abulkhayerbijoy.repository.DatabaseCallRepository;
 import com.android.abulkhayerbijoy.repository.NetworkCallRepository;
@@ -30,10 +30,10 @@ public class DepositActivityViewModel extends AndroidViewModel {
         return dRepository.getSRInfo();
     }
 
-    public Observable<List<SKUDetail>> GetReturnSkuItems() {
+    public Observable<List<SKU>> GetReturnSkuItems() {
         return dRepository.getReturnSkuItems();
     }
-    public Observable<List<ChallanDetail>> GetChallanItems() {
+    public Observable<List<Challan>> GetChallanItems() {
         return dRepository.getChallanStockItems();
     }
 
@@ -42,7 +42,7 @@ public class DepositActivityViewModel extends AndroidViewModel {
     }
 
 
-    public Observable<List<ChallanDetail>> getTotalChallanValue() {
+    public Observable<List<Challan>> getTotalChallanValue() {
         return dRepository.getTotalChallanValue();
     }
 

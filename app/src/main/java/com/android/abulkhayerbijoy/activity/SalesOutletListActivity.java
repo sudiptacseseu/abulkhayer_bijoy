@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.android.abulkhayerbijoy.R;
 import com.android.abulkhayerbijoy.adapter.SalesOutletListAdapter;
-import com.android.abulkhayerbijoy.model.OutletDetail;
+import com.android.abulkhayerbijoy.model.Outlet;
 import com.android.abulkhayerbijoy.utils.BanglaFontUtil;
 import com.android.abulkhayerbijoy.utils.SystemConstants;
 import com.android.abulkhayerbijoy.viewmodel.SalesOutletListActivityViewModel;
@@ -86,7 +86,7 @@ public class SalesOutletListActivity extends AppCompatActivity implements SalesO
         mViewModel.getAllOutlets()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<OutletDetail>>() {
+                .subscribe(new Observer<List<Outlet>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
@@ -94,7 +94,7 @@ public class SalesOutletListActivity extends AppCompatActivity implements SalesO
 
                     @SuppressLint("ClickableViewAccessibility")
                     @Override
-                    public void onNext(List<OutletDetail> outletDetails) {
+                    public void onNext(List<Outlet> outletDetails) {
                         if(outletDetails != null){
                             tvTotalOutlet.setText(String.format("(%s)", banglaUtil.NumberToBangla(String.valueOf(outletDetails.size()))));
                         }
@@ -117,14 +117,14 @@ public class SalesOutletListActivity extends AppCompatActivity implements SalesO
                 .getDeliveryManOrders(SystemConstants.STATUS_VISITED)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<OutletDetail>>() {
+                .subscribe(new Observer<List<Outlet>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(List<OutletDetail> outletDetails) {
+                    public void onNext(List<Outlet> outletDetails) {
 
                         adapter = new SalesOutletListAdapter(new ArrayList<>(outletDetails),
                                 SalesOutletListActivity.this, SystemConstants.STATUS_VISITED);
@@ -148,14 +148,14 @@ public class SalesOutletListActivity extends AppCompatActivity implements SalesO
                 .getDeliveryManOrders(SystemConstants.STATUS_VISITED_AND_PENDING)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<OutletDetail>>() {
+                .subscribe(new Observer<List<Outlet>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(List<OutletDetail> outletDetails) {
+                    public void onNext(List<Outlet> outletDetails) {
 
                         adapter = new SalesOutletListAdapter(new ArrayList<>(outletDetails),
                                 SalesOutletListActivity.this, SystemConstants.STATUS_VISITED_AND_PENDING);
@@ -179,14 +179,14 @@ public class SalesOutletListActivity extends AppCompatActivity implements SalesO
                 .getDeliveryManOrders(SystemConstants.STATUS_NOT_VISITED)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<OutletDetail>>() {
+                .subscribe(new Observer<List<Outlet>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(List<OutletDetail> outletDetails) {
+                    public void onNext(List<Outlet> outletDetails) {
 
                         adapter = new SalesOutletListAdapter(new ArrayList<>(outletDetails),
                                 SalesOutletListActivity.this, SystemConstants.STATUS_NOT_VISITED);
@@ -210,14 +210,14 @@ public class SalesOutletListActivity extends AppCompatActivity implements SalesO
                 .getDeliveryManOrders(status)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<OutletDetail>>() {
+                .subscribe(new Observer<List<Outlet>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(List<OutletDetail> outletDetails) {
+                    public void onNext(List<Outlet> outletDetails) {
                         textViewStatusCount.setText(banglaUtil.NumberToBangla(String.valueOf(outletDetails.size())));
                     }
 
@@ -252,7 +252,7 @@ public class SalesOutletListActivity extends AppCompatActivity implements SalesO
     }
 
     @Override
-    public void onOrderItemClicked(OutletDetail outletDetail) {
+    public void onOrderItemClicked(Outlet outletDetail) {
         Intent intent = new Intent(SalesOutletListActivity.this, StoreDetailsActivity.class);
         intent.putExtra("OutletName", outletDetail.getName());
         intent.putExtra("OutletBanglaName", outletDetail.getBanglaName());

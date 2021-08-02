@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,8 +18,7 @@ import android.widget.TextView;
 import com.android.abulkhayerbijoy.R;
 import com.android.abulkhayerbijoy.adapter.DepositListAdapter;
 import com.android.abulkhayerbijoy.model.CashDeposit;
-import com.android.abulkhayerbijoy.model.SKUDetail;
-import com.android.abulkhayerbijoy.model.SRBasic;
+import com.android.abulkhayerbijoy.model.SKU;
 import com.android.abulkhayerbijoy.repository.DatabaseCallRepository;
 import com.android.abulkhayerbijoy.startup.Startup;
 import com.android.abulkhayerbijoy.utils.BanglaFontUtil;
@@ -132,7 +130,7 @@ public class DepositActivity extends AppCompatActivity {
         mViewModel.GetReturnSkuItems()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<SKUDetail>>() {
+                .subscribe(new Observer<List<SKU>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
@@ -140,7 +138,7 @@ public class DepositActivity extends AppCompatActivity {
 
                     @SuppressLint("ClickableViewAccessibility")
                     @Override
-                    public void onNext(List<SKUDetail> challanReturnItems) {
+                    public void onNext(List<SKU> challanReturnItems) {
                         if (challanReturnItems != null) {
                             adapter = new DepositListAdapter(challanReturnItems);
                             recyclerView.setAdapter(adapter);

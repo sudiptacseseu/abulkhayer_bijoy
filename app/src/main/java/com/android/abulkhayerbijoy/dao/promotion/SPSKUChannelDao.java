@@ -29,6 +29,6 @@ public interface SPSKUChannelDao {
     @Query("DELETE FROM tprskuchannel_table")
     void deleteAll();
 
-    @Query("SELECT tprskuchannel_table.SKUID SKUID FROM tprskuchannel_table INNER JOIN sku_table ON tprskuchannel_table.SKUID = sku_table.SKUID WHERE tprskuchannel_table.sPID= :tprID AND tprskuchannel_table.channelID= :channelID")
+    @Query("SELECT tprskuchannel_table.SKUID SKUID FROM tprskuchannel_table INNER JOIN SKU_table ON tprskuchannel_table.SKUID = SKU_table.SKUID WHERE tprskuchannel_table.sPID= :tprID AND tprskuchannel_table.channelID= :channelID")
     Cursor getSkuListForTpr(int tprID, int channelID);
 }

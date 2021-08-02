@@ -8,8 +8,8 @@ import android.database.Cursor;
 import android.util.ArrayMap;
 
 import com.android.abulkhayerbijoy.dao.ChallanDao;
-import com.android.abulkhayerbijoy.dao.OrderDetailsDao;
-import com.android.abulkhayerbijoy.dao.OrderItemsDao;
+import com.android.abulkhayerbijoy.dao.OrderDao;
+import com.android.abulkhayerbijoy.dao.OrderItemDao;
 import com.android.abulkhayerbijoy.dao.OutletDao;
 import com.android.abulkhayerbijoy.dao.SKUDao;
 import com.android.abulkhayerbijoy.dao.SRBasicDao;
@@ -28,17 +28,16 @@ import com.android.abulkhayerbijoy.dao.promotion.promotioninfo.TradePromotionsDa
 import com.android.abulkhayerbijoy.database.DatabaseConstants;
 import com.android.abulkhayerbijoy.database.DatabaseInitializer;
 import com.android.abulkhayerbijoy.model.CashDeposit;
-import com.android.abulkhayerbijoy.model.ChallanDetail;
-import com.android.abulkhayerbijoy.model.OrderDetail;
-import com.android.abulkhayerbijoy.model.OrderItemDetail;
-import com.android.abulkhayerbijoy.model.OutletDetail;
-import com.android.abulkhayerbijoy.model.SKUDetail;
+import com.android.abulkhayerbijoy.model.Challan;
+import com.android.abulkhayerbijoy.model.Order;
+import com.android.abulkhayerbijoy.model.OrderItem;
+import com.android.abulkhayerbijoy.model.Outlet;
+import com.android.abulkhayerbijoy.model.SKU;
 import com.android.abulkhayerbijoy.model.SRBasic;
 import com.android.abulkhayerbijoy.model.SalesOrderPromotion;
-import com.android.abulkhayerbijoy.model.SectionDetail;
+import com.android.abulkhayerbijoy.model.Section;
 import com.android.abulkhayerbijoy.model.promotion.FreeItem;
 import com.android.abulkhayerbijoy.model.promotion.FreeOrDiscount;
-import com.android.abulkhayerbijoy.model.promotion.ResponseRestrictedTP;
 import com.android.abulkhayerbijoy.model.promotion.ResponseSPSlab;
 import com.android.abulkhayerbijoy.model.promotion.SPSKUChannel;
 import com.android.abulkhayerbijoy.model.promotion.Slab;
@@ -81,8 +80,8 @@ public class DatabaseCallRepository {
     private TPOutletDao tPOutletDao;
     private SKUDao sKUDao;
     private ChallanDao challanDao;
-    private OrderDetailsDao orderDetailsDao;
-    private OrderItemsDao orderItemsDao;
+    private OrderDao orderDetailsDao;
+    private OrderItemDao orderItemsDao;
     private SectionDao sectionDao;
     private OutletDao outletDao;
     private SalesOrderPromotionDao salesOrderPromotionDao;
@@ -159,7 +158,7 @@ public class DatabaseCallRepository {
         );
     }
 
-    public Completable insertSKUDetails(List<SKUDetail> items) {
+    public Completable insertSKUDetails(List<SKU> items) {
         return Completable.fromRunnable(
                 () -> {
                     sKUDao.deleteAll();
@@ -168,14 +167,14 @@ public class DatabaseCallRepository {
         );
     }
 
-    public Completable insertChallanDetails(ArrayList<ChallanDetail> items) {
+    public Completable insertChallanDetails(ArrayList<Challan> items) {
         return Completable.fromRunnable(
                 () -> {
                     //challanDao.deleteAll();
                     //challanDao.insertAll(items);
 
-                    for (ChallanDetail citem : items) {
-                        ChallanDetail challan = challanDao.getChallanBySKUID(citem.skuId);
+                    for (Challan citem : items) {
+                        Challan challan = challanDao.getChallanBySKUID(citem.skuId);
                         if (challan == null)
                             challanDao.insert(citem);
                         else {
@@ -183,7 +182,7 @@ public class DatabaseCallRepository {
                             int currentQty = citem.stockQty;
                             int finalQty = previousQty + currentQty;
 
-                            ChallanDetail editChallan = new ChallanDetail();
+                            Challan editChallan = new Challan();
                             editChallan.id = challan.id;
                             editChallan.challanID = challan.challanID;
                             editChallan.skuId = citem.skuId;
@@ -201,12 +200,12 @@ public class DatabaseCallRepository {
         );
     }
 
-    public Completable insertOrderInformation(ArrayList<OrderItemDetail> orderItems, OrderDetail orderDetail) {
+    public Completable insertOrderInformation(ArrayList<OrderItem> orderItems, Order orderDetail) {
         return Completable.fromRunnable(
                 () -> {
 
                     //Handling Old Order
-                    OrderDetail itemOrder = orderDetailsDao.getOrderDetailsByOutletID(orderDetail.getOutletID());
+                    Order itemOrder = orderDetailsDao.getOrderDetailsByOutletID(orderDetail.getOutletID());
                     if (itemOrder != null) {
                         orderItemsDao.deleteByOrderID(itemOrder.getId()); //child
                         orderDetailsDao.deleteByOutlet(itemOrder.getOutletID()); //parent
@@ -216,7 +215,7 @@ public class DatabaseCallRepository {
                     long id = orderDetailsDao.insert(orderDetail);
 
                     //Inserting Order Item
-                    for (OrderItemDetail item : orderItems) {
+                    for (OrderItem item : orderItems) {
                         item.setOrderID((int) id);
                         orderItemsDao.insert(item);
                     }
@@ -225,9 +224,9 @@ public class DatabaseCallRepository {
                     outletDao.updateOutletStatus(orderDetail.getOrderStatus(), orderDetail.getOutletID());
 
                     //Updating Stock
-                    List<ChallanDetail> challanItems = challanDao.getChallanStockItems();
-                    for (ChallanDetail chItem : challanItems) {
-                        for (OrderItemDetail oItem : orderItems) {
+                    List<Challan> challanItems = challanDao.getChallanStockItems();
+                    for (Challan chItem : challanItems) {
+                        for (OrderItem oItem : orderItems) {
                             if (chItem.getSkuId() == oItem.getSkuId()) {
                                 int skuSoldQty = orderItemsDao.getSoldQtyBySKU(chItem.skuId);
                                 int prev_skuSoldQty = chItem.skuSoldQty;
@@ -247,12 +246,12 @@ public class DatabaseCallRepository {
         );
     }
 
-    public Completable insertOrderInformationV2(ArrayList<OrderItemDetail> orderItems, OrderDetail orderDetail) {
+    public Completable insertOrderInformationV2(ArrayList<OrderItem> orderItems, Order orderDetail) {
         return Completable.fromRunnable(
                 () -> {
 
                     //Handling Old Order
-                    OrderDetail itemOrder = orderDetailsDao.getOrderDetailsByOutletID(orderDetail.getOutletID());
+                    Order itemOrder = orderDetailsDao.getOrderDetailsByOutletID(orderDetail.getOutletID());
                     if (itemOrder != null) {
                         orderItemsDao.deleteByOrderID(itemOrder.getId());
                         orderDetailsDao.deleteByOutlet(itemOrder.getOutletID());
@@ -260,7 +259,7 @@ public class DatabaseCallRepository {
 
                     //Mapping Previous Sold Qty
                     HashMap<Integer, Integer> stockMapping = new HashMap<>();
-                    for (OrderItemDetail item : orderItems) {
+                    for (OrderItem item : orderItems) {
                         int soldQty = orderItemsDao.getSoldQtyBySKU(item.getSkuId());
                         if (soldQty > 0)
                             stockMapping.put(item.getSkuId(), soldQty);
@@ -271,7 +270,7 @@ public class DatabaseCallRepository {
                     long id = orderDetailsDao.insert(orderDetail);
 
                     //Inserting Order Item
-                    for (OrderItemDetail item : orderItems) {
+                    for (OrderItem item : orderItems) {
                         item.setOrderID((int) id);
                         orderItemsDao.insert(item);
 
@@ -288,8 +287,8 @@ public class DatabaseCallRepository {
                     }
 
                     //Challan Table Update -- ?
-                    List<ChallanDetail> challanItems = challanDao.getChallanStockItems();
-                    for (ChallanDetail item : challanItems) {
+                    List<Challan> challanItems = challanDao.getChallanStockItems();
+                    for (Challan item : challanItems) {
                         int skuID = item.getSkuId();
                         int stockQty = item.getStockQty();
                         int actualSoldQty = 0;
@@ -309,7 +308,7 @@ public class DatabaseCallRepository {
         );
     }
 
-    public Observable<OrderDetail> getOrderInformation(int OutletID) {
+    public Observable<Order> getOrderInformation(int OutletID) {
         return Observable.fromCallable(() -> orderDetailsDao.getOrderDetailsByOutletID(OutletID));
     }
 
@@ -317,11 +316,11 @@ public class DatabaseCallRepository {
         return Observable.fromCallable(() -> orderDetailsDao.getSoldValueByOutletID(OutletID));
     }
 
-    public Observable<List<OrderItemDetail>> getAllByOrder(int orderID) {
+    public Observable<List<OrderItem>> getAllByOrder(int orderID) {
         return Observable.fromCallable(() -> orderItemsDao.getOrderDetailsByOrderID(orderID));
     }
 
-    public Completable insertSectionDetails(List<SectionDetail> items) {
+    public Completable insertSectionDetails(List<Section> items) {
         return Completable.fromRunnable(
                 () -> {
                     sectionDao.deleteAll();
@@ -330,7 +329,7 @@ public class DatabaseCallRepository {
         );
     }
 
-    public Completable insertOutletDetails(List<OutletDetail> items) {
+    public Completable insertOutletDetails(List<Outlet> items) {
         return Completable.fromRunnable(
                 () -> {
                     outletDao.deleteAll();
@@ -340,20 +339,20 @@ public class DatabaseCallRepository {
         );
     }
 
-    public Observable<List<ChallanDetail>> getTotalChallanValue() {
+    public Observable<List<Challan>> getTotalChallanValue() {
         return Observable.fromCallable(() ->
                 challanDao.getChallanStockItems()
         );
     }
 
-    public Observable<List<SKUDetail>> getSkuItems() {
+    public Observable<List<SKU>> getSkuItems() {
         return Observable.fromCallable(() -> {
-            List<SKUDetail> skus = sKUDao.getSkuItems();
-            List<ChallanDetail> cItems = challanDao.getChallanStockItems();
+            List<SKU> skus = sKUDao.getSkuItems();
+            List<Challan> cItems = challanDao.getChallanStockItems();
 
             if (cItems.size() > 0 && skus.size() > 0) {
-                for (SKUDetail sKItem : skus) {
-                    for (ChallanDetail cItem : cItems) {
+                for (SKU sKItem : skus) {
+                    for (Challan cItem : cItems) {
                         if (sKItem.getSkuId() == cItem.getSkuId()) {
                             sKItem.setStockQty(cItem.getStockQty());
                             sKItem.soldQty = cItem.skuSoldQty;
@@ -367,15 +366,15 @@ public class DatabaseCallRepository {
         });
     }
 
-    public Observable<List<SKUDetail>> getReturnSkuItems() {
+    public Observable<List<SKU>> getReturnSkuItems() {
         return Observable.fromCallable(() -> {
-            List<SKUDetail> skus = sKUDao.getSkuItems();
-            List<ChallanDetail> cItems = challanDao.getReturnProductItems();
-            List<SKUDetail> fItem = new ArrayList<>();
+            List<SKU> skus = sKUDao.getSkuItems();
+            List<Challan> cItems = challanDao.getReturnProductItems();
+            List<SKU> fItem = new ArrayList<>();
 
             if (cItems.size() > 0 && skus.size() > 0) {
-                for (SKUDetail sKItem : skus) {
-                    for (ChallanDetail cItem : cItems) {
+                for (SKU sKItem : skus) {
+                    for (Challan cItem : cItems) {
                         if (sKItem.getSkuId() == cItem.getSkuId()) {
                             sKItem.setStockQty(cItem.getStockQty());
                             sKItem.soldQty = cItem.skuSoldQty;
@@ -390,7 +389,7 @@ public class DatabaseCallRepository {
         });
     }
 
-    public Observable<List<ChallanDetail>> getChallanStockItems() {
+    public Observable<List<Challan>> getChallanStockItems() {
         return Observable.fromCallable(() ->
                 challanDao.getChallanStockItems());
     }
@@ -402,9 +401,9 @@ public class DatabaseCallRepository {
                     double todaysAllOutletCredit = orderDetailsDao.getPreviousCreditByOutlet();
                     double totalChallanValue = challanDao.getChallanValue();
                     double totalDueValue = outletDao.getDueValue();
-                    List<ChallanDetail> cItems = challanDao.getReturnProductItems();
+                    List<Challan> cItems = challanDao.getReturnProductItems();
 
-                    for (ChallanDetail cItem : cItems) {
+                    for (Challan cItem : cItems) {
 
                         double productPriceById = challanDao.getReturnProductValue(cItem.getId());
                         returnProdcutValue += productPriceById;
@@ -425,9 +424,9 @@ public class DatabaseCallRepository {
         return Observable.fromCallable(() ->
                 {
                     double salesProductValue = 0.0;
-                    List<ChallanDetail> cItems = challanDao.getChallanStockItems();
+                    List<Challan> cItems = challanDao.getChallanStockItems();
 
-                    for (ChallanDetail cItem : cItems) {
+                    for (Challan cItem : cItems) {
 
                         double productPriceById = challanDao.getSalesProductValue(cItem.getId());
                         salesProductValue += productPriceById;
@@ -439,20 +438,20 @@ public class DatabaseCallRepository {
         );
     }
 
-    public Observable<List<ChallanDetail>> getChallanStockItemWithMapping(int outletID, MemoHelper memoInstance) {
+    public Observable<List<Challan>> getChallanStockItemWithMapping(int outletID, MemoHelper memoInstance) {
         return Observable.fromCallable(() -> {
-            List<ChallanDetail> challanItems = challanDao.getChallanStockItems();
+            List<Challan> challanItems = challanDao.getChallanStockItems();
             //calculate remaining
-            for (ChallanDetail challan : challanItems) {
+            for (Challan challan : challanItems) {
                 challan.remainingQty = challan.getStockQty() - challan.getSkuSoldQty();
             }
 
-            OrderDetail oDetails = orderDetailsDao.getOrderDetailsByOutletID(outletID);
+            Order oDetails = orderDetailsDao.getOrderDetailsByOutletID(outletID);
             if (oDetails != null) {
-                List<OrderItemDetail> oChildItems = orderItemsDao.getOrderDetailsByOrderID(oDetails.getId());
+                List<OrderItem> oChildItems = orderItemsDao.getOrderDetailsByOrderID(oDetails.getId());
                 memoInstance.setOrderItems(new ArrayList<>(oChildItems));
-                for (ChallanDetail cItem : challanItems) {
-                    for (OrderItemDetail oItem : oChildItems) {
+                for (Challan cItem : challanItems) {
+                    for (OrderItem oItem : oChildItems) {
                         if (cItem.getSkuId() == oItem.getSkuId()) {
                             cItem.orderQty = oItem.getOrderQty();
                             cItem.netProductPrice = oItem.getPcsRate() * oItem.getOrderQty();
@@ -636,7 +635,7 @@ public class DatabaseCallRepository {
         return Observable.fromCallable(() -> {
             FreeOrDiscount freeOrDiscount = new FreeOrDiscount();
             try {
-                ArrayList<OrderItemDetail> orderList = memoHelper.getOrderItems();
+                ArrayList<OrderItem> orderList = memoHelper.getOrderItems();
                 int skuID = 0;
                 double ratioQty = 0;
                 Map<Integer, Integer> map = new HashMap<Integer, Integer>();
@@ -665,9 +664,9 @@ public class DatabaseCallRepository {
                         orderQuantity = 0;
 
                         map = new HashMap<Integer, Integer>();
-                        for (SKUDetail nowSku : nowTpr.skus) {
+                        for (SKU nowSku : nowTpr.skus) {
 
-                            OrderItemDetail nowOrder = getOrderTotalBySkuId(nowSku, orderList);
+                            OrderItem nowOrder = getOrderTotalBySkuId(nowSku, orderList);
                             skuID = nowSku.skuId;
 
                             map.put(nowSku.skuId, nowOrder.orderQty);
@@ -728,7 +727,7 @@ public class DatabaseCallRepository {
 
                                 if (nowSlab.slabType == Slab.FREE_PRODUCT && nowSlab.minQty <= minBundle && nowSlab.forEach <= minBundle) {
 
-                                    SKUDetail sku = sKUDao.getSKUByID(nowSlab.freeSKU_ID);
+                                    SKU sku = sKUDao.getSKUByID(nowSlab.freeSKU_ID);
                                     nowSlab.skuTitle = sku.banglaName == null || String.valueOf(sku.banglaName).isEmpty() || String.valueOf(sku.banglaName).equals("null") ? sku.title : sku.banglaName;
 
                                     freeOrDiscount.freeItemList.add(new FreeItem(nowSlab.freeSKU_ID, nowSlab.skuTitle, (int) bonus, nowSlab.giftItemID));
@@ -787,7 +786,7 @@ public class DatabaseCallRepository {
                         ArrayList<Slab> promoSlabs = getTradePromotionSlabs(nowTpr.ID);
                         int lineCount = 0;
 
-                        for (OrderItemDetail order : orderList) {
+                        for (OrderItem order : orderList) {
                             for (Tpr item : spSKUList) {
                                 if (order.skuId == item.sku.skuId) {
                                     lineCount++;
@@ -818,9 +817,9 @@ public class DatabaseCallRepository {
                         }
 
                     } else {
-                        for (SKUDetail nowSku : nowTpr.skus) {
+                        for (SKU nowSku : nowTpr.skus) {
 
-                            OrderItemDetail nowOrder = getOrderTotalBySkuId(nowSku, orderList);
+                            OrderItem nowOrder = getOrderTotalBySkuId(nowSku, orderList);
                             double quantity = nowOrder.orderQty;//double quantity = nowOrder.soldPieces;//*nowOrder.Carton * nowSku.pcsPerCtn +*//* ;
                             double value = nowOrder.Total;
                             skuID = nowOrder.skuId;
@@ -846,7 +845,7 @@ public class DatabaseCallRepository {
                             }
                             for (int i = 0; i < orderList.size(); i++) {
                                 if (orderList.get(i).skuId == nowSku.skuId) {
-                                    SKUDetail sku = sKUDao.getSKUByID(nowSku.skuId);
+                                    SKU sku = sKUDao.getSKUByID(nowSku.skuId);
                                     int qty = orderList.get(i).Carton * orderList.get(i).cartonPcsRatio + orderList.get(i).Piece - (int) (quantity);
                                     if (qty < 0)
                                         qty = 0;
@@ -893,7 +892,7 @@ public class DatabaseCallRepository {
                                     nowSlab.bonusQty = 0;
 
                                 if (nowSlab.slabType == Slab.FREE_PRODUCT && nowSlab.minQty <= orderQuantity && nowSlab.forEach <= orderQuantity) {
-                                    SKUDetail sku = sKUDao.getSKUByID(nowSlab.freeSKU_ID);
+                                    SKU sku = sKUDao.getSKUByID(nowSlab.freeSKU_ID);
                                     nowSlab.skuTitle = sku.banglaName == null || String.valueOf(sku.banglaName).isEmpty() || String.valueOf(sku.banglaName).equals("null") ? sku.title : sku.banglaName;
 
                                     freeOrDiscount.freeItemList.add(new FreeItem(nowSlab.freeSKU_ID, nowSlab.skuTitle, bonus, nowSlab.giftItemID)); //previously bonus was cast to int. changed due to perfetti broken free sku qty on 16 Nov 2017
@@ -942,7 +941,7 @@ public class DatabaseCallRepository {
                             if (nowTpr.skus.size() == 1) {
                                 for (int i = 0; i < orderList.size(); i++) {
                                     if (orderList.get(i).skuId == nowTpr.skus.get(0).skuId) {
-                                        SKUDetail sku = sKUDao.getSKUByID(skuID); //DatabaseQueryUtil.getSku(context, skuID);
+                                        SKU sku = sKUDao.getSKUByID(skuID); //DatabaseQueryUtil.getSku(context, skuID);
                                         //Modified by abrar for devided by 0 error
                                         int ctnNumber = 0;
                                         int pcsNumber = 0;
@@ -979,7 +978,7 @@ public class DatabaseCallRepository {
                 if (cursor.moveToFirst()) {
                     do {
                         Tpr returnTpr = new Tpr();
-                        returnTpr.sku = new SKUDetail();
+                        returnTpr.sku = new SKU();
                         returnTpr.tprId = cursor
                                 .getInt(cursor
                                         .getColumnIndex("TPID"));
@@ -1000,7 +999,7 @@ public class DatabaseCallRepository {
         return returnTprList;
     }
 
-    private ArrayList<OrderItemDetail> UpdatedOrderList(TradePromotion nowTpr, Slab nowSlab, int skuID, ArrayList<OrderItemDetail> orderList, double orderQuantity) {
+    private ArrayList<OrderItem> UpdatedOrderList(TradePromotion nowTpr, Slab nowSlab, int skuID, ArrayList<OrderItem> orderList, double orderQuantity) {
 
         switch (nowTpr.Unit) {
             case DatabaseConstants.PromotionFlag.TPR_PROGRAM_TYPE_QUANTITY_2:
@@ -1010,7 +1009,7 @@ public class DatabaseCallRepository {
                         orderQty = orderQty - (int) orderQuantity * nowSlab.forEach;
                         if (orderQty < 0)
                             orderQty = 0;
-                        SKUDetail sku = sKUDao.getSKUByID(skuID);
+                        SKU sku = sKUDao.getSKUByID(skuID);
                         int ctnNumber = orderQty / sku.cartonPcsRatio;
                         int pcsNumber = orderQty % sku.cartonPcsRatio;
                         orderList.get(i).Carton = ctnNumber;
@@ -1034,7 +1033,7 @@ public class DatabaseCallRepository {
 
                 for (int i = 0; i < orderList.size(); i++) {
                     if (orderList.get(i).skuId == skuID) {
-                        SKUDetail sku = sKUDao.getSKUByID(skuID);
+                        SKU sku = sKUDao.getSKUByID(skuID);
                         int orderQty = orderList.get(i).Carton * orderList.get(i).cartonPcsRatio + orderList.get(i).Piece;
                         double weight = orderQty * sku.packSize;
                         weight = weight - (int) orderQuantity * nowSlab.forEach * sku.packSize;
@@ -1154,8 +1153,8 @@ public class DatabaseCallRepository {
     }
 
 
-    private OrderItemDetail getOrderTotalBySkuId(SKUDetail skuItem, ArrayList<OrderItemDetail> orderList) {
-        OrderItemDetail returnOrder = new OrderItemDetail();
+    private OrderItem getOrderTotalBySkuId(SKU skuItem, ArrayList<OrderItem> orderList) {
+        OrderItem returnOrder = new OrderItem();
         returnOrder.skuId = skuItem.skuId;
         returnOrder.Carton = 0;
         returnOrder.Total = 0;
@@ -1232,7 +1231,7 @@ public class DatabaseCallRepository {
                 while (!cursor.isAfterLast()) {
                     int promotionId = cursor.getInt(0);
 
-                    SKUDetail sku = new SKUDetail();
+                    SKU sku = new SKU();
                     sku.skuId = cursor.getInt(7);
                     sku.title = cursor.getString(8);
                     sku.packSize = cursor.getInt(9);
@@ -1279,13 +1278,13 @@ public class DatabaseCallRepository {
 
     //region DeliveryOrderList Activity
 
-    public Observable<List<OutletDetail>> getDeliveryManOrders(int status) {
+    public Observable<List<Outlet>> getDeliveryManOrders(int status) {
         return Observable.fromCallable(() -> {
-            List<OutletDetail> outlets = outletDao.getAllByStatus(status);
-            List<OrderDetail> orderDetails = orderDetailsDao.getAll();
+            List<Outlet> outlets = outletDao.getAllByStatus(status);
+            List<Order> orderDetails = orderDetailsDao.getAll();
 
-            for (OutletDetail oItem : outlets) {
-                for (OrderDetail orderDetailItem : orderDetails) {
+            for (Outlet oItem : outlets) {
+                for (Order orderDetailItem : orderDetails) {
                     if (oItem.getCustomerID() == orderDetailItem.getOutletID()) {
                         oItem.outletDue = (orderDetailItem.getOrderNetValue() - orderDetailItem.getCashCollection());
                     }
@@ -1296,14 +1295,14 @@ public class DatabaseCallRepository {
         });
     }
 
-    public Observable<List<OutletDetail>> getAllOutlets() {
+    public Observable<List<Outlet>> getAllOutlets() {
         return Observable.fromCallable(() -> outletDao.getAll());
     }
 
     public Observable<SRBasic> getSRInfo() {
         return Observable.fromCallable(() -> {
             SRBasic basic = userDao.getUser();
-            SectionDetail section = sectionDao.getSRSectionInfo(basic.getSectionID(), basic.getRouteID());
+            Section section = sectionDao.getSRSectionInfo(basic.getSectionID(), basic.getRouteID());
             basic.setRouteName(section.routeBanglaName);
 
             return basic;
@@ -1337,9 +1336,9 @@ public class DatabaseCallRepository {
             if (true) {
                 item = new BijoyInfo();
 
-                List<OrderDetail> orders = orderDetailsDao.getAll();
-                List<OrderItemDetail> orderItems = orderItemsDao.getAll();
-                List<ChallanDetail> challans = challanDao.getChallanStockItems();
+                List<Order> orders = orderDetailsDao.getAll();
+                List<OrderItem> orderItems = orderItemsDao.getAll();
+                List<Challan> challans = challanDao.getChallanStockItems();
                 SRBasic srInfo = userDao.getUser();
 
                 //SET UPLOADABLE ITEMS

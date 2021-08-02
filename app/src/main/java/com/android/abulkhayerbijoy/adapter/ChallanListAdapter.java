@@ -15,10 +15,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.abulkhayerbijoy.R;
-import com.android.abulkhayerbijoy.dao.SKUDao;
-import com.android.abulkhayerbijoy.database.DatabaseInitializer;
-import com.android.abulkhayerbijoy.model.ChallanDetail;
-import com.android.abulkhayerbijoy.model.SKUDetail;
+import com.android.abulkhayerbijoy.model.Challan;
+import com.android.abulkhayerbijoy.model.SKU;
 import com.android.abulkhayerbijoy.repository.DatabaseCallRepository;
 import com.android.abulkhayerbijoy.startup.Startup;
 import com.android.abulkhayerbijoy.utils.BanglaFontUtil;
@@ -33,7 +31,7 @@ import es.dmoral.toasty.Toasty;
 
 public class ChallanListAdapter extends RecyclerView.Adapter<ChallanListAdapter.DeliveryManChallanItemViewHolder> {
 
-    private List<SKUDetail> mDeliveryManChallanItems;
+    private List<SKU> mDeliveryManChallanItems;
     private LayoutInflater layoutInflater;
     private Context context;
     private BanglaFontUtil banglaUtil = null;
@@ -41,7 +39,7 @@ public class ChallanListAdapter extends RecyclerView.Adapter<ChallanListAdapter.
     public android.os.Handler callback;
     public DatabaseCallRepository dbCallRepository;
 
-    public ChallanListAdapter(List<SKUDetail> mDeliveryManChallanItems, Handler callback) {
+    public ChallanListAdapter(List<SKU> mDeliveryManChallanItems, Handler callback) {
         this.mDeliveryManChallanItems = mDeliveryManChallanItems;
         this.callback = callback;
         notifyDataSetChanged();
@@ -65,7 +63,7 @@ public class ChallanListAdapter extends RecyclerView.Adapter<ChallanListAdapter.
     public void onBindViewHolder(DeliveryManChallanItemViewHolder holder, final int position) {
 
         banglaUtil = new BanglaFontUtil();
-        SKUDetail currentChallan = mDeliveryManChallanItems.get(position);
+        SKU currentChallan = mDeliveryManChallanItems.get(position);
         EditText editTextNumberPicker = holder.itemView.findViewById(R.id.display);
 
         holder.tvSkuImage.setImageResource(R.drawable.sku_image);
@@ -125,8 +123,8 @@ public class ChallanListAdapter extends RecyclerView.Adapter<ChallanListAdapter.
         });
     }
 
-    private void addSKUToChallan(SKUDetail currentChallan, int value, double price) {
-        ChallanDetail cItem = new ChallanDetail();
+    private void addSKUToChallan(SKU currentChallan, int value, double price) {
+        Challan cItem = new Challan();
         cItem.skuId = currentChallan.skuId;
         cItem.stockQty = value;
         cItem.banglaName = currentChallan.banglaName;
@@ -134,8 +132,8 @@ public class ChallanListAdapter extends RecyclerView.Adapter<ChallanListAdapter.
         cItem.cartonPcsRatio = currentChallan.cartonPcsRatio;
         cItem.challanValue = value * price;
 
-        ArrayList<ChallanDetail> items = mHelper.getChallanItems();
-        ListIterator<ChallanDetail> iter = items.listIterator();
+        ArrayList<Challan> items = mHelper.getChallanItems();
+        ListIterator<Challan> iter = items.listIterator();
         while (iter.hasNext()) {
             if (iter.next().skuId == currentChallan.skuId) {
                 iter.remove();

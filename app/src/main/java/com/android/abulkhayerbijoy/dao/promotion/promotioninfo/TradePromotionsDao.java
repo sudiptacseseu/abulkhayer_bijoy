@@ -29,7 +29,7 @@ public interface TradePromotionsDao {
     void deleteAll();
 
     @Query("SELECT tblTradePromotion.id, name, tblTPSlab.giftItemBanglaName nameBangla, basis, unit, type, IsCustSpecific, tblTP_SKU.skuId, Title, Packsize, tblTP_SKU.ratio, IsRestricted " +
-            "FROM tblTradePromotion LEFT OUTER JOIN tblTP_SKU ON tblTradePromotion.id = tblTP_SKU.TPID LEFT JOIN sku_table ON sku_table.SKUID = tblTP_SKU.skuId LEFT JOIN tblTPChannels " +
+            "FROM tblTradePromotion LEFT OUTER JOIN tblTP_SKU ON tblTradePromotion.id = tblTP_SKU.TPID LEFT JOIN SKU_table ON SKU_table.SKUID = tblTP_SKU.skuId LEFT JOIN tblTPChannels " +
             "ON tblTradePromotion.id = tblTPChannels.TPID LEFT JOIN tblTPSlab ON tblTPSlab.TPID = tblTradePromotion.id WHERE tblTPChannels.ChannelID = :channelID AND type!=2")
     Cursor getTradePromotionOffers(int channelID);
 

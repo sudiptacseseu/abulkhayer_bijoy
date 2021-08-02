@@ -13,7 +13,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity(tableName = DatabaseConstants.DatabaseName.ORDER)
-public class OrderDetail implements Serializable {
+public class Order implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     @SerializedName("id")
@@ -152,6 +152,6 @@ public class OrderDetail implements Serializable {
         this.cashCollection = cashCollection;
     }
 
-    public OrderDetail() {
+    public Order() {
     }
 }

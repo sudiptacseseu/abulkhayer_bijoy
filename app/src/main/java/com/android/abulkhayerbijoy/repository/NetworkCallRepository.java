@@ -2,19 +2,14 @@ package com.android.abulkhayerbijoy.repository;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.widget.Toast;
 
-import com.android.abulkhayerbijoy.activity.ChallanActivity;
-import com.android.abulkhayerbijoy.activity.LoginActivity;
-import com.android.abulkhayerbijoy.activity.MainActivity;
-import com.android.abulkhayerbijoy.model.ChallanDetail;
+import com.android.abulkhayerbijoy.model.Challan;
 import com.android.abulkhayerbijoy.model.SRBasic;
 import com.android.abulkhayerbijoy.model.response.BijoyInfo;
 import com.android.abulkhayerbijoy.model.response.BijoyTransactionResponse;
 import com.android.abulkhayerbijoy.network.NetworkService;
 import com.android.abulkhayerbijoy.startup.Startup;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -204,7 +199,7 @@ public class NetworkCallRepository {
                 });
     }
 
-    public void challanItemsConfirmation(ArrayList<ChallanDetail> challanItems, SRBasic srBasic) {
+    public void challanItemsConfirmation(ArrayList<Challan> challanItems, SRBasic srBasic) {
 
         JSONObject paramObject = new JSONObject();
 
@@ -230,9 +225,9 @@ public class NetworkCallRepository {
                             if (response.responseCode == HttpURLConnection.HTTP_OK) {
                                 try {
 
-                                    ArrayList<ChallanDetail> cItems = new ArrayList<>();
+                                    ArrayList<Challan> cItems = new ArrayList<>();
 
-                                    for (ChallanDetail citem : challanItems) {
+                                    for (Challan citem : challanItems) {
                                         citem.challanID = Integer.parseInt(response.data);
                                         cItems.add(citem);
                                     }

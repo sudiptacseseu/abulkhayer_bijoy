@@ -7,7 +7,7 @@
 
 		<variable
 			name="obj"
-			type="com.android.abulkhayerbijoy.model.OutletDetail" />
+			type="com.android.abulkhayerbijoy.model.Outlet" />
 	</data>
 
 <LinearLayout

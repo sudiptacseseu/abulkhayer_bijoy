@@ -6,7 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.android.abulkhayerbijoy.model.ChallanDetail;
+import com.android.abulkhayerbijoy.model.Challan;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,36 +16,36 @@ import java.util.List;
 public interface ChallanDao {
 
     @Insert
-    void insert(ChallanDetail item);
+    void insert(Challan item);
 
     @Update
-    void updateChallan(ChallanDetail item);
+    void updateChallan(Challan item);
 
-    @Query("SELECT * FROM challanitem_table WHERE skuId=:skuID")
-    ChallanDetail getChallanBySKUID(int skuID);
+    @Query("SELECT * FROM ChallanItem_table WHERE skuId=:skuID")
+    Challan getChallanBySKUID(int skuID);
 
     @Insert
-    void insertAll(ArrayList<ChallanDetail> items);
+    void insertAll(ArrayList<Challan> items);
 
-    @Query("SELECT * FROM challanitem_table")
-    List<ChallanDetail> getChallanStockItems();
+    @Query("SELECT * FROM ChallanItem_table")
+    List<Challan> getChallanStockItems();
 
-    @Query("SELECT * FROM challanitem_table WHERE stockQty > skuSoldQty")
-    List<ChallanDetail> getReturnProductItems();
+    @Query("SELECT * FROM ChallanItem_table WHERE stockQty > skuSoldQty")
+    List<Challan> getReturnProductItems();
 
-    @Query("SELECT SUM(challanValue) from challanitem_table")
+    @Query("SELECT SUM(challanValue) from ChallanItem_table")
     double getChallanValue();
 
-    @Query("SELECT skuSoldQty * pcsRate from challanitem_table WHERE skuSoldQty > 0 AND id=:id")
+    @Query("SELECT skuSoldQty * pcsRate from ChallanItem_table WHERE skuSoldQty > 0 AND id=:id")
     double getSalesProductValue(int id);
 
-    @Query("SELECT SUM(stockQty - skuSoldQty) * pcsRate from challanitem_table WHERE (stockQty - skuSoldQty) > 0 AND id=:id")
+    @Query("SELECT SUM(stockQty - skuSoldQty) * pcsRate from ChallanItem_table WHERE (stockQty - skuSoldQty) > 0 AND id=:id")
     double getReturnProductValue(int id);
 
     @Update
-    void updateChallanItems(List<ChallanDetail> items);
+    void updateChallanItems(List<Challan> items);
 
-    @Query("DELETE FROM challanitem_table")
+    @Query("DELETE FROM ChallanItem_table")
     void deleteAll();
 
 }

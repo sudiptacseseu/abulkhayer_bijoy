@@ -8,8 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.android.abulkhayerbijoy.R;
-import com.android.abulkhayerbijoy.dao.SKUDao;
-import com.android.abulkhayerbijoy.model.SKUDetail;
+import com.android.abulkhayerbijoy.model.SKU;
 import com.android.abulkhayerbijoy.repository.DatabaseCallRepository;
 import com.android.abulkhayerbijoy.startup.Startup;
 import com.android.abulkhayerbijoy.utils.BanglaFontUtil;
@@ -18,14 +17,14 @@ import java.util.List;
 
 public class DepositListAdapter extends RecyclerView.Adapter<DepositListAdapter.ChallanReturnItemsViewHolder> {
 
-    private List<SKUDetail> mChallanReturnItems;
+    private List<SKU> mChallanReturnItems;
     private LayoutInflater layoutInflater;
     private BanglaFontUtil banglaUtil = null;
     public DatabaseCallRepository dbCallRepository;
     public MemoHelper mHelper;
     public Context context;
 
-    public DepositListAdapter(List<SKUDetail> mChallanReturnItems) {
+    public DepositListAdapter(List<SKU> mChallanReturnItems) {
         this.mChallanReturnItems = mChallanReturnItems;
         notifyDataSetChanged();
     }
@@ -48,7 +47,7 @@ public class DepositListAdapter extends RecyclerView.Adapter<DepositListAdapter.
     public void onBindViewHolder(ChallanReturnItemsViewHolder holder, final int position) {
 
         banglaUtil = new BanglaFontUtil();
-        SKUDetail currentChallan = mChallanReturnItems.get(position);
+        SKU currentChallan = mChallanReturnItems.get(position);
 
         holder.tvSkuImage.setImageResource(R.drawable.sku_image);
         holder.tvSkuName.setText(currentChallan.getBanglaName());

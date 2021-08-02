@@ -1,12 +1,11 @@
 package com.android.abulkhayerbijoy.viewmodel;
 
 import android.app.Application;
-import android.content.Context;
 
 import androidx.lifecycle.AndroidViewModel;
 
-import com.android.abulkhayerbijoy.model.ChallanDetail;
-import com.android.abulkhayerbijoy.model.SKUDetail;
+import com.android.abulkhayerbijoy.model.Challan;
+import com.android.abulkhayerbijoy.model.SKU;
 import com.android.abulkhayerbijoy.model.SRBasic;
 import com.android.abulkhayerbijoy.repository.DatabaseCallRepository;
 import com.android.abulkhayerbijoy.repository.NetworkCallRepository;
@@ -31,15 +30,15 @@ public class ChallanActivityViewModel extends AndroidViewModel {
         return dRepository.getSRInfo();
     }
 
-    public void doChallanItemsConfirmation(ArrayList<ChallanDetail> challanItems, SRBasic srBasic) {
+    public void doChallanItemsConfirmation(ArrayList<Challan> challanItems, SRBasic srBasic) {
         nRepository.challanItemsConfirmation(challanItems, srBasic);
     }
 
-    public Observable<List<SKUDetail>> GetSkuItems() {
+    public Observable<List<SKU>> GetSkuItems() {
         return dRepository.getSkuItems();
     }
 
-    public Observable<List<ChallanDetail>> getTotalChallanValue() {
+    public Observable<List<Challan>> getTotalChallanValue() {
         return dRepository.getTotalChallanValue();
     }
 }

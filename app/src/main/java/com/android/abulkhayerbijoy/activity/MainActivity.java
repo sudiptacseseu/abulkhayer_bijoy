@@ -1,18 +1,14 @@
 package com.android.abulkhayerbijoy.activity;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
-
-import androidx.databinding.DataBindingUtil;
 
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.android.abulkhayerbijoy.model.OutletDetail;
+import com.android.abulkhayerbijoy.model.Outlet;
 import com.android.abulkhayerbijoy.model.SRBasic;
 import com.android.abulkhayerbijoy.utils.SystemHelper;
 import com.google.android.material.navigation.NavigationView;
@@ -25,7 +21,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.text.TextUtils;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -37,10 +32,6 @@ import com.android.abulkhayerbijoy.utils.SystemConstants;
 import com.android.abulkhayerbijoy.viewmodel.MainActivityViewModel;
 import com.pixplicity.easyprefs.library.Prefs;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
@@ -55,7 +46,7 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
 public class MainActivity extends AppCompatActivity {
 
     private NavigationView navigationView;
-    private DrawerLayout drawer;
+    private DrawerLayout drawerLayout;
     private Toolbar toolbar;
     private static final String TAG_HOME = "home";
     public static String CURRENT_TAG = TAG_HOME;
@@ -81,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mHandler = new Handler();
-        drawer = findViewById(R.id.drawer_layout);
+        drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
 
         mViewModel = ViewModelProviders.of(MainActivity.this).get(MainActivityViewModel.class);
@@ -132,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         mViewModel.getAllOutlets()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<OutletDetail>>() {
+                .subscribe(new Observer<List<Outlet>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
@@ -140,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @SuppressLint("ClickableViewAccessibility")
                     @Override
-                    public void onNext(List<OutletDetail> outletDetails) {
+                    public void onNext(List<Outlet> outletDetails) {
                         if (outletDetails != null && outletDetails.size() > 0) {
                             textViewDeliveryOutletNumber.setText(banglaUtil.NumberToBangla(String.valueOf(outletDetails.size())));
                         }
@@ -249,11 +240,11 @@ public class MainActivity extends AppCompatActivity {
         // if user select the current navigation menu again, don't do anything
         // just close the navigation drawer
         if (getSupportFragmentManager().findFragmentByTag(CURRENT_TAG) != null) {
-            drawer.closeDrawers();
+            drawerLayout.closeDrawers();
             return;
         }
 
-        drawer.closeDrawers();
+        drawerLayout.closeDrawers();
 
         // refresh toolbar menu
         invalidateOptionsMenu();
@@ -332,7 +323,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.openDrawer, R.string.closeDrawer) {
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.openDrawer, R.string.closeDrawer) {
 
             @Override
             public void onDrawerClosed(View drawerView) {
@@ -345,7 +336,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        drawer.addDrawerListener(actionBarDrawerToggle);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
     }
 
@@ -353,8 +344,8 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
 
         //region Drawer Handle Logic
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawers();
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawers();
             return;
         }
 

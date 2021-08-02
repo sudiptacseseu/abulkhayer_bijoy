@@ -11,8 +11,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-@Entity(tableName = DatabaseConstants.DatabaseName.ORDER_ITEMS)
-public class OrderItemDetail implements Serializable {
+@Entity(tableName = DatabaseConstants.DatabaseName.CHALLAN)
+public class Challan implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     @SerializedName("id")
@@ -20,9 +20,9 @@ public class OrderItemDetail implements Serializable {
     @Expose
     public int id;
 
-    @SerializedName("OrderID")
+    @SerializedName("ChallanID")
     @Expose
-    private Integer orderID;
+    public int challanID;
 
     @SerializedName("SKUID")
     @Expose
@@ -36,9 +36,13 @@ public class OrderItemDetail implements Serializable {
     @Expose
     public String banglaName;
 
-    @SerializedName("OrderQty")
+    @SerializedName("StockQty")
     @Expose
-    public int orderQty;
+    public int stockQty;
+
+    @SerializedName("SkuSoldQty")
+    @Expose
+    public int skuSoldQty;
 
     @SerializedName("PcsRate")
     @Expose
@@ -48,13 +52,22 @@ public class OrderItemDetail implements Serializable {
     @Expose
     public int cartonPcsRatio;
 
-    //Helper property
+    @SerializedName("ChallanValue")
+    @Expose
+    public double challanValue;
+
+    //Helper Property
     @Ignore
-    public int Carton;
+    public int remainingQty;
     @Ignore
-    public int Piece;
+    public double netProductPrice;
     @Ignore
-    public double Total;
+    public double cashCollected;
+    @Ignore
+    public double previousNetCredit;
+    @Ignore
+    public int orderQty;
+
 
 
     public int getId() {
@@ -65,12 +78,20 @@ public class OrderItemDetail implements Serializable {
         this.id = id;
     }
 
-    public Integer getOrderID() {
-        return orderID;
+    public int getChallanID() {
+        return challanID;
     }
 
-    public void setOrderID(Integer orderID) {
-        this.orderID = orderID;
+    public void setChallanID(int challanID) {
+        this.challanID = challanID;
+    }
+
+    public double getChallanValue() {
+        return challanValue;
+    }
+
+    public void setChallanValue(double challanValue) {
+        this.challanValue = challanValue;
     }
 
     public int getSkuId() {
@@ -97,12 +118,20 @@ public class OrderItemDetail implements Serializable {
         this.banglaName = banglaName;
     }
 
-    public int getOrderQty() {
-        return orderQty;
+    public int getStockQty() {
+        return stockQty;
     }
 
-    public void setOrderQty(int orderQty) {
-        this.orderQty = orderQty;
+    public void setStockQty(int stockQty) {
+        this.stockQty = stockQty;
+    }
+
+    public int getRemainingQty() {
+        return remainingQty;
+    }
+
+    public void setRemainingQty(int remainingQty) {
+        this.remainingQty = remainingQty;
     }
 
     public double getPcsRate() {
@@ -121,12 +150,21 @@ public class OrderItemDetail implements Serializable {
         this.cartonPcsRatio = cartonPcsRatio;
     }
 
-    public OrderItemDetail() {
+    public int getSkuSoldQty() {
+        return skuSoldQty;
+    }
+
+    public void setSkuSoldQty(int skuSoldQty) {
+        this.skuSoldQty = skuSoldQty;
+    }
+
+    public Challan() {
     }
 
     @Ignore
-    public OrderItemDetail(int skuId, String title) {
+    public Challan(int skuId, String title) {
         this.skuId = skuId;
         this.title = title;
     }
+
 }

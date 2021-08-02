@@ -7,7 +7,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.android.abulkhayerbijoy.model.SectionDetail;
+import com.android.abulkhayerbijoy.model.Section;
 
 import java.util.List;
 
@@ -15,21 +15,21 @@ import java.util.List;
 @Dao
 public interface SectionDao {
 
-    @Query("SELECT * from section_table")
-    List<SectionDetail> getAll();
+    @Query("SELECT * from Section_table")
+    List<Section> getAll();
 
-    @Query("SELECT * from section_table where sectionID=:sectionID and routeID=:routeID")
-    SectionDetail getSRSectionInfo(int sectionID, int routeID);
+    @Query("SELECT * from Section_table where sectionID=:sectionID and routeID=:routeID")
+    Section getSRSectionInfo(int sectionID, int routeID);
 
-    @Query("SELECT * from section_table")
+    @Query("SELECT * from Section_table")
     Cursor getAllSKU();
 
     @Insert
-    void insert(SectionDetail item);
+    void insert(Section item);
 
     @Insert
-    void insertAll(List<SectionDetail> items);
+    void insertAll(List<Section> items);
 
-    @Query("DELETE FROM section_table")
+    @Query("DELETE FROM Section_table")
     void deleteAll();
 }

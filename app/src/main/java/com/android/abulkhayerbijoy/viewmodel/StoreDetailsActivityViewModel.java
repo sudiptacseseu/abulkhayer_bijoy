@@ -5,7 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.android.abulkhayerbijoy.model.ChallanDetail;
+import com.android.abulkhayerbijoy.model.Challan;
 import com.android.abulkhayerbijoy.model.SalesOrderPromotion;
 import com.android.abulkhayerbijoy.model.promotion.FreeItem;
 import com.android.abulkhayerbijoy.repository.DatabaseCallRepository;
@@ -38,11 +38,11 @@ public class StoreDetailsActivityViewModel extends AndroidViewModel {
         return dbRepository.getPromotionsByType(orderID, promoType);
     }
 
-    public Observable<List<ChallanDetail>> GetChallanItems() {
+    public Observable<List<Challan>> GetChallanItems() {
         return dbRepository.getChallanStockItems();
     }
 
-    public Observable<List<ChallanDetail>> getChallanStockItemWithMapping(int outletID, MemoHelper memoinstance) {
+    public Observable<List<Challan>> getChallanStockItemWithMapping(int outletID, MemoHelper memoinstance) {
         return dbRepository.getChallanStockItemWithMapping(outletID,memoinstance);
     }
 

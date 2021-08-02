@@ -10,18 +10,15 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.abulkhayerbijoy.R;
 import com.android.abulkhayerbijoy.adapter.ChallanListAdapter;
-import com.android.abulkhayerbijoy.model.ChallanDetail;
-import com.android.abulkhayerbijoy.model.SKUDetail;
+import com.android.abulkhayerbijoy.model.Challan;
+import com.android.abulkhayerbijoy.model.SKU;
 import com.android.abulkhayerbijoy.model.SRBasic;
 import com.android.abulkhayerbijoy.repository.DatabaseCallRepository;
 import com.android.abulkhayerbijoy.startup.Startup;
@@ -34,7 +31,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
-import io.reactivex.CompletableObserver;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -77,7 +73,7 @@ public class ChallanActivity extends AppCompatActivity {
         mViewModel.GetSkuItems()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<SKUDetail>>() {
+                .subscribe(new Observer<List<SKU>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
@@ -85,7 +81,7 @@ public class ChallanActivity extends AppCompatActivity {
 
                     @SuppressLint("ClickableViewAccessibility")
                     @Override
-                    public void onNext(List<SKUDetail> deliveryManChallanItems) {
+                    public void onNext(List<SKU> deliveryManChallanItems) {
                         if (deliveryManChallanItems != null) {
                             adapter = new ChallanListAdapter(deliveryManChallanItems, uiUpdateCallback);
                             recyclerView.setAdapter(adapter);
@@ -108,7 +104,7 @@ public class ChallanActivity extends AppCompatActivity {
         button_Submit.setOnClickListener(view -> {
 
             if (mHelper != null) {
-                ArrayList<ChallanDetail> challanItems = mHelper.getChallanItems();
+                ArrayList<Challan> challanItems = mHelper.getChallanItems();
 
                 if (challanItems.size() == 0) {
                     Toasty.error(ChallanActivity.this, "দয়া করে এস.কে.ইউ অ্যাড করুন!").show();
@@ -184,17 +180,17 @@ public class ChallanActivity extends AppCompatActivity {
                 .getTotalChallanValue()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<ChallanDetail>>() {
+                .subscribe(new Observer<List<Challan>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(List<ChallanDetail> cItems) {
+                    public void onNext(List<Challan> cItems) {
                         if (cItems != null) {
                             double challanValue = 0.0;
-                            for (ChallanDetail cItem : cItems) {
+                            for (Challan cItem : cItems) {
                                 challanValue += cItem.getChallanValue();
                             }
 
@@ -222,7 +218,7 @@ public class ChallanActivity extends AppCompatActivity {
             double productValue = 0.0;
 
             if (mHelper != null) {
-                for (ChallanDetail item : mHelper.getChallanItems()) {
+                for (Challan item : mHelper.getChallanItems()) {
                     itemCount++;
                     productValue += item.challanValue;
                 }

@@ -1,8 +1,8 @@
 package com.android.abulkhayerbijoy.model.response;
 
-import com.android.abulkhayerbijoy.model.ChallanDetail;
-import com.android.abulkhayerbijoy.model.OrderDetail;
-import com.android.abulkhayerbijoy.model.OrderItemDetail;
+import com.android.abulkhayerbijoy.model.Challan;
+import com.android.abulkhayerbijoy.model.Order;
+import com.android.abulkhayerbijoy.model.OrderItem;
 import com.android.abulkhayerbijoy.model.SRBasic;
 import com.android.abulkhayerbijoy.model.SalesOrderPromotion;
 import com.google.gson.annotations.Expose;
@@ -14,15 +14,15 @@ public class BijoyInfo {
 
     @SerializedName("OrderMaster")
     @Expose
-    public ArrayList<OrderDetail> orderMaster;
+    public ArrayList<Order> orderMaster;
 
     @SerializedName("OrderItems")
     @Expose
-    public ArrayList<OrderItemDetail> orderItems;
+    public ArrayList<OrderItem> orderItems;
 
     @SerializedName("ChallanItems")
     @Expose
-    public ArrayList<ChallanDetail> challanItems;
+    public ArrayList<Challan> challanItems;
 
     @SerializedName("SalesOrderPromotion")
     @Expose

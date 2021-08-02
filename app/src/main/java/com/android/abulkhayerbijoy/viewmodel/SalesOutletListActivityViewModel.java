@@ -5,7 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 
 
-import com.android.abulkhayerbijoy.model.OutletDetail;
+import com.android.abulkhayerbijoy.model.Outlet;
 import com.android.abulkhayerbijoy.repository.DatabaseCallRepository;
 import com.android.abulkhayerbijoy.repository.NetworkCallRepository;
 
@@ -24,7 +24,7 @@ public class SalesOutletListActivityViewModel extends AndroidViewModel {
         dbRepository = new DatabaseCallRepository(application);
     }
 
-    public Observable<List<OutletDetail>> getDeliveryManOrders(int status) {
+    public Observable<List<Outlet>> getDeliveryManOrders(int status) {
         return dbRepository.getDeliveryManOrders(status);
     }
 
@@ -32,7 +32,7 @@ public class SalesOutletListActivityViewModel extends AndroidViewModel {
 //        return dbRepository.getOutletByStatus(status);
 //    }
 
-    public Observable<List<OutletDetail>> getAllOutlets() {
+    public Observable<List<Outlet>> getAllOutlets() {
         return dbRepository.getAllOutlets();
     }
 

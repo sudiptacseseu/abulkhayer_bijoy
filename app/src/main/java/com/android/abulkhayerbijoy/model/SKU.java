@@ -12,7 +12,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 @Entity(tableName = DatabaseConstants.DatabaseName.SKU)
-public class SKUDetail implements Serializable {
+public class SKU implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     @SerializedName("id")
@@ -263,11 +263,11 @@ public class SKUDetail implements Serializable {
         this.monoPcsRatio = monoPcsRatio;
     }
 
-    public SKUDetail() {
+    public SKU() {
     }
 
     @Ignore
-    public SKUDetail(int skuId, String title) {
+    public SKU(int skuId, String title) {
         this.skuId = skuId;
         this.title = title;
     }

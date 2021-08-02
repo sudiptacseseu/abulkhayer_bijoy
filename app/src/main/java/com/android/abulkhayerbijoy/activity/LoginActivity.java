@@ -21,10 +21,10 @@ import android.widget.Toast;
 
 import com.android.abulkhayerbijoy.R;
 import com.android.abulkhayerbijoy.databinding.ActivityLoginBinding;
-import com.android.abulkhayerbijoy.model.OutletDetail;
-import com.android.abulkhayerbijoy.model.SKUDetail;
+import com.android.abulkhayerbijoy.model.Outlet;
+import com.android.abulkhayerbijoy.model.SKU;
 import com.android.abulkhayerbijoy.model.SRBasic;
-import com.android.abulkhayerbijoy.model.SectionDetail;
+import com.android.abulkhayerbijoy.model.Section;
 import com.android.abulkhayerbijoy.model.promotion.ResponseSPSlab;
 import com.android.abulkhayerbijoy.model.promotion.SPSKUChannel;
 import com.android.abulkhayerbijoy.model.promotion.Slab;
@@ -331,12 +331,12 @@ public class LoginActivity extends AppCompatActivity {
                     public void onNext(Response<String> result) {
                         String res = result.body();
                         try {
-                            List<SKUDetail> items = new ArrayList<>();
+                            List<SKU> items = new ArrayList<>();
 
                             JSONArray jsonMainNode = new JSONArray(res);
                             for (int i = 0; i < jsonMainNode.length(); i++) {
                                 String data = jsonMainNode.getString(i);
-                                SKUDetail item = new Gson().fromJson(data, new TypeToken<SKUDetail>() {
+                                SKU item = new Gson().fromJson(data, new TypeToken<SKU>() {
                                 }.getType());
                                 items.add(item);
                             }
@@ -402,12 +402,12 @@ public class LoginActivity extends AppCompatActivity {
                     public void onNext(Response<String> result) {
                         String res = result.body();
                         try {
-                            List<SectionDetail> items = new ArrayList<>();
+                            List<Section> items = new ArrayList<>();
 
                             JSONArray jsonMainNode = new JSONArray(res);
                             for (int i = 0; i < jsonMainNode.length(); i++) {
                                 String data = jsonMainNode.getString(i);
-                                SectionDetail item = new Gson().fromJson(data, new TypeToken<SectionDetail>() {
+                                Section item = new Gson().fromJson(data, new TypeToken<Section>() {
                                 }.getType());
                                 items.add(item);
                             }
@@ -474,12 +474,12 @@ public class LoginActivity extends AppCompatActivity {
                         String res = result.body();
                         try {
                             if (result.code() == HttpsURLConnection.HTTP_OK) {
-                                List<OutletDetail> items = new ArrayList<>();
+                                List<Outlet> items = new ArrayList<>();
 
                                 JSONArray jsonMainNode = new JSONArray(res);
                                 for (int i = 0; i < jsonMainNode.length(); i++) {
                                     String data = jsonMainNode.getString(i);
-                                    OutletDetail item = new Gson().fromJson(data, new TypeToken<OutletDetail>() {
+                                    Outlet item = new Gson().fromJson(data, new TypeToken<Outlet>() {
                                     }.getType());
                                     items.add(item);
                                 }

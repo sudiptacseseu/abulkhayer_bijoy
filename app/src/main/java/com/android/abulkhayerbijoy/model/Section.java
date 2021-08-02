@@ -12,7 +12,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 @Entity(tableName = DatabaseConstants.DatabaseName.SECTION)
-public class SectionDetail implements Serializable {
+public class Section implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     @SerializedName("id")
@@ -172,6 +172,6 @@ public class SectionDetail implements Serializable {
         this.ownSection = ownSection;
     }
 
-    public SectionDetail() {
+    public Section() {
     }
 }

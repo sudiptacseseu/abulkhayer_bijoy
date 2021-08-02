@@ -7,7 +7,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.android.abulkhayerbijoy.model.OutletDetail;
+import com.android.abulkhayerbijoy.model.Outlet;
 
 import java.util.List;
 
@@ -16,10 +16,10 @@ import java.util.List;
 public interface OutletDao {
 
     @Query("SELECT * from Outlet_table")
-    List<OutletDetail> getAll();
+    List<Outlet> getAll();
 
     @Query("SELECT * from Outlet_table where visited= :status")
-    List<OutletDetail> getAllByStatus(int status);
+    List<Outlet> getAllByStatus(int status);
 
     @Query("SELECT COUNT(name) from Outlet_table where visited= :status")
     int getOutletCountByStatus(int status);
@@ -37,10 +37,10 @@ public interface OutletDao {
     Cursor getAllSKU();
 
     @Insert
-    void insert(OutletDetail item);
+    void insert(Outlet item);
 
     @Insert
-    void insertAll(List<OutletDetail> items);
+    void insertAll(List<Outlet> items);
 
     @Query("DELETE FROM Outlet_table")
     void deleteAll();

@@ -10,8 +10,8 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 
 import com.android.abulkhayerbijoy.dao.ChallanDao;
-import com.android.abulkhayerbijoy.dao.OrderDetailsDao;
-import com.android.abulkhayerbijoy.dao.OrderItemsDao;
+import com.android.abulkhayerbijoy.dao.OrderDao;
+import com.android.abulkhayerbijoy.dao.OrderItemDao;
 import com.android.abulkhayerbijoy.dao.OutletDao;
 import com.android.abulkhayerbijoy.dao.SKUDao;
 import com.android.abulkhayerbijoy.dao.SRBasicDao;
@@ -27,14 +27,14 @@ import com.android.abulkhayerbijoy.dao.promotion.promotioninfo.TPChannelsDao;
 import com.android.abulkhayerbijoy.dao.promotion.promotioninfo.TPCustomersDao;
 import com.android.abulkhayerbijoy.dao.promotion.promotioninfo.TPSKUDao;
 import com.android.abulkhayerbijoy.dao.promotion.promotioninfo.TradePromotionsDao;
-import com.android.abulkhayerbijoy.model.ChallanDetail;
-import com.android.abulkhayerbijoy.model.OrderDetail;
-import com.android.abulkhayerbijoy.model.OrderItemDetail;
-import com.android.abulkhayerbijoy.model.OutletDetail;
-import com.android.abulkhayerbijoy.model.SKUDetail;
+import com.android.abulkhayerbijoy.model.Challan;
+import com.android.abulkhayerbijoy.model.Order;
+import com.android.abulkhayerbijoy.model.OrderItem;
+import com.android.abulkhayerbijoy.model.Outlet;
+import com.android.abulkhayerbijoy.model.SKU;
 import com.android.abulkhayerbijoy.model.SRBasic;
 import com.android.abulkhayerbijoy.model.SalesOrderPromotion;
-import com.android.abulkhayerbijoy.model.SectionDetail;
+import com.android.abulkhayerbijoy.model.Section;
 import com.android.abulkhayerbijoy.model.promotion.ResponseRestrictedTP;
 import com.android.abulkhayerbijoy.model.promotion.ResponseSPSlab;
 import com.android.abulkhayerbijoy.model.promotion.SPSKUChannel;
@@ -48,7 +48,7 @@ import com.android.abulkhayerbijoy.model.promotion.promoinfo.TradePromotion;
 
 
 @Database(entities = {SRBasic.class, Tpr.class, SPSKUChannel.class, ResponseSPSlab.class, Slab.class, ResponseRestrictedTP.class,
-        SKUDetail.class, ChallanDetail.class, OrderDetail.class, OrderItemDetail.class, SectionDetail.class, OutletDetail.class, SalesOrderPromotion.class,
+        SKU.class, Challan.class, Order.class, OrderItem.class, Section.class, Outlet.class, SalesOrderPromotion.class,
         TradePromotion.class, TPChannels.class, SPCustomer.class, TPSKU.class, SPSlabBonuses.class}, version = 1, exportSchema = false)
 
 public abstract class DatabaseInitializer extends RoomDatabase {
@@ -69,9 +69,9 @@ public abstract class DatabaseInitializer extends RoomDatabase {
 
     public abstract ChallanDao challanDao();
 
-    public abstract OrderDetailsDao orderDetailsDao();
+    public abstract OrderDao orderDetailsDao();
 
-    public abstract OrderItemsDao orderItemsDao();
+    public abstract OrderItemDao orderItemsDao();
 
     public abstract SectionDao sectionDao();
 

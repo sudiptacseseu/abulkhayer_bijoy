@@ -24,9 +24,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.abulkhayerbijoy.R;
 import com.android.abulkhayerbijoy.adapter.StoreDetailsListAdapter;
-import com.android.abulkhayerbijoy.model.ChallanDetail;
-import com.android.abulkhayerbijoy.model.OrderDetail;
-import com.android.abulkhayerbijoy.model.OrderItemDetail;
+import com.android.abulkhayerbijoy.model.Challan;
+import com.android.abulkhayerbijoy.model.Order;
+import com.android.abulkhayerbijoy.model.OrderItem;
 import com.android.abulkhayerbijoy.model.promotion.FreeOrDiscount;
 import com.android.abulkhayerbijoy.repository.DatabaseCallRepository;
 import com.android.abulkhayerbijoy.startup.Startup;
@@ -43,7 +43,6 @@ import es.dmoral.toasty.Toasty;
 import io.reactivex.CompletableObserver;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
@@ -170,8 +169,8 @@ public class StoreDetailsActivity extends AppCompatActivity {
                 buttonConfirmVisit.setOnClickListener(view13 -> {
 
                     if (memoInstance != null) {
-                        ArrayList<OrderItemDetail> orderItems = memoInstance.getOrderItems();
-                        OrderDetail orderDetail = new OrderDetail();
+                        ArrayList<OrderItem> orderItems = memoInstance.getOrderItems();
+                        Order orderDetail = new Order();
                         orderDetail.setOutletID(outletID);
                         orderDetail.setOutletName(outletName);
                         orderDetail.setPreviousCredit(0.00);
@@ -191,8 +190,8 @@ public class StoreDetailsActivity extends AppCompatActivity {
                 buttonPendingVisit.setOnClickListener(view14 -> {
 
                     if (memoInstance != null) {
-                        ArrayList<OrderItemDetail> orderItems = memoInstance.getOrderItems();
-                        OrderDetail orderDetail = new OrderDetail();
+                        ArrayList<OrderItem> orderItems = memoInstance.getOrderItems();
+                        Order orderDetail = new Order();
                         orderDetail.setOutletID(outletID);
                         orderDetail.setOutletName(outletName);
                         orderDetail.setPreviousCredit(0.00);
@@ -214,8 +213,8 @@ public class StoreDetailsActivity extends AppCompatActivity {
             } else {
 
                 if (memoInstance != null) {
-                    ArrayList<OrderItemDetail> orderItems = memoInstance.getOrderItems();
-                    OrderDetail orderDetail = new OrderDetail();
+                    ArrayList<OrderItem> orderItems = memoInstance.getOrderItems();
+                    Order orderDetail = new Order();
                     orderDetail.setOutletID(outletID);
                     orderDetail.setOutletName(outletName);
                     orderDetail.setPreviousCredit(0.00);
@@ -237,7 +236,7 @@ public class StoreDetailsActivity extends AppCompatActivity {
         mViewModel.getChallanStockItemWithMapping(outletID, memoInstance)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<ChallanDetail>>() {
+                .subscribe(new Observer<List<Challan>>() {
 
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -246,7 +245,7 @@ public class StoreDetailsActivity extends AppCompatActivity {
 
                     @SuppressLint("ClickableViewAccessibility")
                     @Override
-                    public void onNext(List<ChallanDetail> deliveryManChallanItems) {
+                    public void onNext(List<Challan> deliveryManChallanItems) {
                         if (deliveryManChallanItems != null) {
                             adapter = new StoreDetailsListAdapter(deliveryManChallanItems, uiUpdateCallback);
                             recyclerView.setAdapter(adapter);
@@ -267,31 +266,31 @@ public class StoreDetailsActivity extends AppCompatActivity {
 
     }
 
-    private double getNetProductPrice(List<ChallanDetail> deliveryManChallanItems) {
+    private double getNetProductPrice(List<Challan> deliveryManChallanItems) {
         double netProiductPrice = 0.0;
         if (deliveryManChallanItems != null) {
-            for (ChallanDetail cItem : deliveryManChallanItems) {
+            for (Challan cItem : deliveryManChallanItems) {
                 netProiductPrice += cItem.netProductPrice;
             }
         }
         return netProiductPrice;
     }
 
-    private double getNetProductPriceFormatted(ArrayList<OrderItemDetail> orderItems) {
+    private double getNetProductPriceFormatted(ArrayList<OrderItem> orderItems) {
         double netProductPrice = 0.0;
         double netProductPriceFormatted = 0.0;
         if (memoInstance.getOrderItems() != null) {
-            for (OrderItemDetail cItem : orderItems) {
+            for (OrderItem cItem : orderItems) {
                 netProductPriceFormatted = SystemHelper.formatDouble(netProductPrice += cItem.pcsRate * cItem.orderQty);
             }
         }
         return netProductPriceFormatted;
     }
 
-    private double getNetCashCollection(List<ChallanDetail> deliveryManChallanItems) {
+    private double getNetCashCollection(List<Challan> deliveryManChallanItems) {
         double collectedCash = 0.0;
         if (deliveryManChallanItems != null) {
-            for (ChallanDetail cItem : deliveryManChallanItems) {
+            for (Challan cItem : deliveryManChallanItems) {
                 collectedCash = cItem.cashCollected;
             }
         }
@@ -360,7 +359,7 @@ public class StoreDetailsActivity extends AppCompatActivity {
                 });
     }
 
-    private void setOrderInformation(ArrayList<OrderItemDetail> orderItems, OrderDetail orderDetail) {
+    private void setOrderInformation(ArrayList<OrderItem> orderItems, Order orderDetail) {
 
         dbCallRepository
                 .insertOrderInformation(orderItems, orderDetail)

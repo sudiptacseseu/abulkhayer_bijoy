@@ -6,7 +6,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.android.abulkhayerbijoy.database.DatabaseConstants;
-import com.android.abulkhayerbijoy.model.SKUDetail;
+import com.android.abulkhayerbijoy.model.SKU;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -47,5 +47,5 @@ public class Tpr {
     public boolean isRestrict;
 
     @Ignore
-    public SKUDetail sku;
+    public SKU sku;
 }

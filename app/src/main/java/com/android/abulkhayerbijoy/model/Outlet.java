@@ -11,7 +11,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 @Entity(tableName = DatabaseConstants.DatabaseName.OUTLET)
-public class OutletDetail implements Serializable {
+public class Outlet implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     @SerializedName("id")
@@ -198,6 +198,6 @@ public class OutletDetail implements Serializable {
         this.location = location;
     }
 
-    public OutletDetail() {
+    public Outlet() {
     }
 }

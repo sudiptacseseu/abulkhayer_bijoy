@@ -15,10 +15,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.abulkhayerbijoy.R;
-import com.android.abulkhayerbijoy.dao.SKUDao;
-import com.android.abulkhayerbijoy.database.DatabaseInitializer;
-import com.android.abulkhayerbijoy.model.ChallanDetail;
-import com.android.abulkhayerbijoy.model.OrderItemDetail;
+import com.android.abulkhayerbijoy.model.Challan;
+import com.android.abulkhayerbijoy.model.OrderItem;
 import com.android.abulkhayerbijoy.repository.DatabaseCallRepository;
 import com.android.abulkhayerbijoy.startup.Startup;
 import com.android.abulkhayerbijoy.utils.BanglaFontUtil;
@@ -34,7 +32,7 @@ import es.dmoral.toasty.Toasty;
 
 public class StoreDetailsListAdapter extends RecyclerView.Adapter<StoreDetailsListAdapter.DeliveryManChallanItemViewHolder> {
 
-    private List<ChallanDetail> mDeliveryManChallanItems;
+    private List<Challan> mDeliveryManChallanItems;
     private LayoutInflater layoutInflater;
     private Context context;
     private BanglaFontUtil banglaUtil = null;
@@ -42,7 +40,7 @@ public class StoreDetailsListAdapter extends RecyclerView.Adapter<StoreDetailsLi
     public DatabaseCallRepository dbCallRepository;
     public android.os.Handler callback;
 
-    public StoreDetailsListAdapter(List<ChallanDetail> mDeliveryManChallanItems, Handler callback) {
+    public StoreDetailsListAdapter(List<Challan> mDeliveryManChallanItems, Handler callback) {
         this.mDeliveryManChallanItems = mDeliveryManChallanItems;
         this.callback = callback;
         notifyDataSetChanged();
@@ -66,7 +64,7 @@ public class StoreDetailsListAdapter extends RecyclerView.Adapter<StoreDetailsLi
     public void onBindViewHolder(DeliveryManChallanItemViewHolder holder, final int position) {
 
         banglaUtil = new BanglaFontUtil();
-        ChallanDetail currentChallan = mDeliveryManChallanItems.get(position);
+        Challan currentChallan = mDeliveryManChallanItems.get(position);
         EditText editTextNumberPicker = holder.itemView.findViewById(R.id.display);
 
 
@@ -127,17 +125,17 @@ public class StoreDetailsListAdapter extends RecyclerView.Adapter<StoreDetailsLi
         });
     }
 
-    private void addItemsToOrder(ChallanDetail currentChallan, int value, double price) {
+    private void addItemsToOrder(Challan currentChallan, int value, double price) {
 
-        OrderItemDetail cItem = new OrderItemDetail();
+        OrderItem cItem = new OrderItem();
         cItem.skuId = currentChallan.skuId;
         cItem.orderQty = value;
         cItem.banglaName = currentChallan.banglaName;
         cItem.pcsRate = price;
         cItem.cartonPcsRatio = currentChallan.cartonPcsRatio;
 
-        ArrayList<OrderItemDetail> items = mHelper.getOrderItems();
-        ListIterator<OrderItemDetail> iter = items.listIterator();
+        ArrayList<OrderItem> items = mHelper.getOrderItems();
+        ListIterator<OrderItem> iter = items.listIterator();
         while (iter.hasNext()) {
             if (iter.next().skuId == currentChallan.skuId) {
                 iter.remove();

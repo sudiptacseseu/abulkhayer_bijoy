@@ -3,10 +3,9 @@ package com.android.abulkhayerbijoy.viewmodel;
 
 import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 
 
-import com.android.abulkhayerbijoy.model.OutletDetail;
+import com.android.abulkhayerbijoy.model.Outlet;
 import com.android.abulkhayerbijoy.model.SRBasic;
 import com.android.abulkhayerbijoy.repository.DatabaseCallRepository;
 import com.android.abulkhayerbijoy.repository.NetworkCallRepository;
@@ -31,7 +30,7 @@ public class MainActivityViewModel extends AndroidViewModel {
         return dbRepository.clearAllTables();
     }
 
-    public Observable<List<OutletDetail>> getAllOutlets() {
+    public Observable<List<Outlet>> getAllOutlets() {
         return dbRepository.getAllOutlets();
     }
 

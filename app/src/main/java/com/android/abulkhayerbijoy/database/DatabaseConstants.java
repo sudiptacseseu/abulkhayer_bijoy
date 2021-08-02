@@ -7,8 +7,8 @@ public class DatabaseConstants {
         public static final String SR_BASIC_TABLE = "SRBasic_table";
         public static final String SKU = "SKU_table";
         public static final String CHALLAN = "ChallanItem_table";
-        public static final String ORDER_ITEMS = "OrderItem_table";
-        public static final String ORDER = "OrderDetail_table";
+        public static final String ORDER_ITEM = "OrderItem_table";
+        public static final String ORDER = "Order_table";
         public static final String SECTION = "Section_table";
         public static final String OUTLET = "Outlet_table";
         public static final String SALES_ORDER_PROMOTION = "SalesOrderPromotion_table";
