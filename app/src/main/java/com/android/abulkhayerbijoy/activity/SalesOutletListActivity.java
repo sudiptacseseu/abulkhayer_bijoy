@@ -1,5 +1,6 @@
 package com.android.abulkhayerbijoy.activity;
 
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.annotation.SuppressLint;
@@ -50,7 +51,7 @@ public class SalesOutletListActivity extends AppCompatActivity implements SalesO
         banglaUtil = new BanglaFontUtil();
 
         context = SalesOutletListActivity.this;
-        mViewModel = ViewModelProviders.of(SalesOutletListActivity.this).get(SalesOutletListActivityViewModel.class);
+        mViewModel = new ViewModelProvider(SalesOutletListActivity.this).get(SalesOutletListActivityViewModel.class);
 
         notVisitedOutlet = findViewById(R.id.textView_NotVisited);
         visitedOutlet = findViewById(R.id.textView_Visited);

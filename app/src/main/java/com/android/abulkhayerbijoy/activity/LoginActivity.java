@@ -1,5 +1,6 @@
 package com.android.abulkhayerbijoy.activity;
 
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.annotation.SuppressLint;
@@ -74,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
         context = LoginActivity.this;
 
         dbCallRepository = new DatabaseCallRepository(Startup.getInstance());
-        mViewModel = ViewModelProviders.of(LoginActivity.this).get(LoginActivityViewModel.class);
+        mViewModel = new ViewModelProvider(LoginActivity.this).get(LoginActivityViewModel.class);
 
         setUserIDIfLoggedIn();
 

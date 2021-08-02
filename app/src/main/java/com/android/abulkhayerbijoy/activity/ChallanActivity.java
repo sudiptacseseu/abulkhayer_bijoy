@@ -1,6 +1,7 @@
 package com.android.abulkhayerbijoy.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -68,7 +69,7 @@ public class ChallanActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
-        mViewModel = ViewModelProviders.of(ChallanActivity.this).get(ChallanActivityViewModel.class);
+        mViewModel = new ViewModelProvider(ChallanActivity.this).get(ChallanActivityViewModel.class);
 
         mViewModel.GetSkuItems()
                 .subscribeOn(Schedulers.io())

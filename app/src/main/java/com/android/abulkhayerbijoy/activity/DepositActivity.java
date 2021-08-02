@@ -2,6 +2,7 @@ package com.android.abulkhayerbijoy.activity;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -73,7 +74,7 @@ public class DepositActivity extends AppCompatActivity {
         banglaUtil = new BanglaFontUtil();
 
 
-        mViewModel = ViewModelProviders.of(DepositActivity.this).get(DepositActivityViewModel.class);
+        mViewModel = new ViewModelProvider(DepositActivity.this).get(DepositActivityViewModel.class);
         getReturnSkuItems();
         getCashDepositInformation();
 

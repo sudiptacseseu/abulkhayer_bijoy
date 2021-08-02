@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -56,7 +56,7 @@ public class StoreDetailsActivity extends AppCompatActivity {
     private DatabaseCallRepository dbCallRepository;
     private BanglaFontUtil banglaUtil = null;
 
-    public TextView textViewPreviousCredit, textViewNetVaule, textViewNetCredit, textViewDiscount;
+    public TextView textViewPreviousCredit, textViewNetValue, textViewNetCredit, textViewDiscount;
     public Button btnSubmit;
     public EditText editTextCashCollection;
     public String outletName, outletBanglaName;
@@ -81,7 +81,7 @@ public class StoreDetailsActivity extends AppCompatActivity {
         banglaUtil = new BanglaFontUtil();
 
         textViewPreviousCredit = findViewById(R.id.textView_PreviousCredit);
-        textViewNetVaule = findViewById(R.id.textView_NetVaule);
+        textViewNetValue = findViewById(R.id.textView_NetVaule);
         textViewNetCredit = findViewById(R.id.textView_NetCredit);
         editTextCashCollection = findViewById(R.id.editText_CashCollected);
         textViewDiscount = findViewById(R.id.textView_Discount);
@@ -89,7 +89,7 @@ public class StoreDetailsActivity extends AppCompatActivity {
         intent = getIntent();
         bundle = intent.getExtras();
 
-        mViewModel = ViewModelProviders.of(StoreDetailsActivity.this).get(StoreDetailsActivityViewModel.class);
+        mViewModel = new ViewModelProvider(StoreDetailsActivity.this).get(StoreDetailsActivityViewModel.class);
         context = StoreDetailsActivity.this;
 
         memoInstance = MemoHelper.instance();
@@ -325,7 +325,7 @@ public class StoreDetailsActivity extends AppCompatActivity {
                         double commission = freeOrDiscount.discount;
 
                         netValue = memoInstance.getOrderNetTotal() - commission;
-                        textViewNetVaule.setText(banglaUtil.NumberToBangla(String.valueOf(netValue)));
+                        textViewNetValue.setText(banglaUtil.NumberToBangla(String.valueOf(netValue)));
                         textViewDiscount.setText(("(কমিশন ৳ "+banglaUtil.NumberToBangla(String.valueOf(commission))+")"));
 
                         if(editTextCashCollection.getText().toString().isEmpty()){

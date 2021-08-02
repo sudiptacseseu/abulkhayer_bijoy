@@ -1,5 +1,6 @@
 package com.android.abulkhayerbijoy.activity;
 
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.annotation.SuppressLint;
@@ -71,11 +72,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        mHandler = new Handler();
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
 
-        mViewModel = ViewModelProviders.of(MainActivity.this).get(MainActivityViewModel.class);
+        mViewModel = new ViewModelProvider(MainActivity.this).get(MainActivityViewModel.class);
 
         activityTitles = getResources().getStringArray(R.array.nav_item_activity_titles);
         setUpNavigationView();
