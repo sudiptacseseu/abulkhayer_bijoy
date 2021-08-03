@@ -10,6 +10,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -213,7 +214,7 @@ public class ChallanActivity extends AppCompatActivity {
     }
 
     @SuppressLint("HandlerLeak")
-    Handler uiUpdateCallback = new Handler() {
+    Handler uiUpdateCallback = new Handler(Looper.getMainLooper()) {
         public void handleMessage(Message msg) {
             int itemCount = 0;
             double productValue = 0.0;

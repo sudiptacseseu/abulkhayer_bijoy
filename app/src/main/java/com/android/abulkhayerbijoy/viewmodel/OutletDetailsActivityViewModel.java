@@ -18,12 +18,12 @@ import java.util.List;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 
-public class StoreDetailsActivityViewModel extends AndroidViewModel {
+public class OutletDetailsActivityViewModel extends AndroidViewModel {
 
     private NetworkCallRepository nRepository;
     private DatabaseCallRepository dbRepository;
 
-    public StoreDetailsActivityViewModel(Application application) {
+    public OutletDetailsActivityViewModel(Application application) {
         super(application);
         nRepository = new NetworkCallRepository(application);
         dbRepository = new DatabaseCallRepository(application);
@@ -42,8 +42,8 @@ public class StoreDetailsActivityViewModel extends AndroidViewModel {
         return dbRepository.getChallanStockItems();
     }
 
-    public Observable<List<Challan>> getChallanStockItemWithMapping(int outletID, MemoHelper memoinstance) {
-        return dbRepository.getChallanStockItemWithMapping(outletID,memoinstance);
+    public Observable<List<Challan>> getChallanStockItemWithMapping(int outletID, MemoHelper memoInstance) {
+        return dbRepository.getChallanStockItemWithMapping(outletID,memoInstance);
     }
 
 

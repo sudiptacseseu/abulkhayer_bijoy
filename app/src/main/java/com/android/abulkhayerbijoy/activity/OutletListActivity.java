@@ -1,7 +1,6 @@
 package com.android.abulkhayerbijoy.activity;
 
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -15,11 +14,11 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.android.abulkhayerbijoy.R;
-import com.android.abulkhayerbijoy.adapter.SalesOutletListAdapter;
+import com.android.abulkhayerbijoy.adapter.OutletListAdapter;
 import com.android.abulkhayerbijoy.model.Outlet;
 import com.android.abulkhayerbijoy.utils.BanglaFontUtil;
 import com.android.abulkhayerbijoy.utils.SystemConstants;
-import com.android.abulkhayerbijoy.viewmodel.SalesOutletListActivityViewModel;
+import com.android.abulkhayerbijoy.viewmodel.OutletListActivityViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,12 +29,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class SalesOutletListActivity extends AppCompatActivity implements SalesOutletListAdapter.OrderItemListener {
+public class OutletListActivity extends AppCompatActivity implements OutletListAdapter.OrderItemListener {
 
     public Context context;
-    private SalesOutletListActivityViewModel mViewModel;
+    private OutletListActivityViewModel mViewModel;
     private RecyclerView recyclerView;
-    private SalesOutletListAdapter adapter;
+    private OutletListAdapter adapter;
     private TextView tvTotalOutlet;
     private BanglaFontUtil banglaUtil = null;
     public TextView notVisitedOutlet, visitedOutlet, pendingOutlet;
@@ -50,8 +49,8 @@ public class SalesOutletListActivity extends AppCompatActivity implements SalesO
         setTitle("সেলস");
         banglaUtil = new BanglaFontUtil();
 
-        context = SalesOutletListActivity.this;
-        mViewModel = new ViewModelProvider(SalesOutletListActivity.this).get(SalesOutletListActivityViewModel.class);
+        context = OutletListActivity.this;
+        mViewModel = new ViewModelProvider(OutletListActivity.this).get(OutletListActivityViewModel.class);
 
         notVisitedOutlet = findViewById(R.id.textView_NotVisited);
         visitedOutlet = findViewById(R.id.textView_Visited);
@@ -127,8 +126,8 @@ public class SalesOutletListActivity extends AppCompatActivity implements SalesO
                     @Override
                     public void onNext(List<Outlet> outletDetails) {
 
-                        adapter = new SalesOutletListAdapter(new ArrayList<>(outletDetails),
-                                SalesOutletListActivity.this, SystemConstants.STATUS_VISITED);
+                        adapter = new OutletListAdapter(new ArrayList<>(outletDetails),
+                                OutletListActivity.this, SystemConstants.STATUS_VISITED);
                         recyclerView.setAdapter(adapter);
                     }
 
@@ -158,8 +157,8 @@ public class SalesOutletListActivity extends AppCompatActivity implements SalesO
                     @Override
                     public void onNext(List<Outlet> outletDetails) {
 
-                        adapter = new SalesOutletListAdapter(new ArrayList<>(outletDetails),
-                                SalesOutletListActivity.this, SystemConstants.STATUS_VISITED_AND_PENDING);
+                        adapter = new OutletListAdapter(new ArrayList<>(outletDetails),
+                                OutletListActivity.this, SystemConstants.STATUS_VISITED_AND_PENDING);
                         recyclerView.setAdapter(adapter);
                     }
 
@@ -189,8 +188,8 @@ public class SalesOutletListActivity extends AppCompatActivity implements SalesO
                     @Override
                     public void onNext(List<Outlet> outletDetails) {
 
-                        adapter = new SalesOutletListAdapter(new ArrayList<>(outletDetails),
-                                SalesOutletListActivity.this, SystemConstants.STATUS_NOT_VISITED);
+                        adapter = new OutletListAdapter(new ArrayList<>(outletDetails),
+                                OutletListActivity.this, SystemConstants.STATUS_NOT_VISITED);
                         recyclerView.setAdapter(adapter);
                     }
 
@@ -237,7 +236,7 @@ public class SalesOutletListActivity extends AppCompatActivity implements SalesO
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
-        Intent intent = new Intent(SalesOutletListActivity.this, MainActivity.class);
+        Intent intent = new Intent(OutletListActivity.this, MainActivity.class);
         startActivity(intent);
     }
 
@@ -254,7 +253,7 @@ public class SalesOutletListActivity extends AppCompatActivity implements SalesO
 
     @Override
     public void onOrderItemClicked(Outlet outletDetail) {
-        Intent intent = new Intent(SalesOutletListActivity.this, StoreDetailsActivity.class);
+        Intent intent = new Intent(OutletListActivity.this, OutletDetailsActivity.class);
         intent.putExtra("OutletName", outletDetail.getName());
         intent.putExtra("OutletBanglaName", outletDetail.getBanglaName());
         intent.putExtra("OutletID", outletDetail.getCustomerID());

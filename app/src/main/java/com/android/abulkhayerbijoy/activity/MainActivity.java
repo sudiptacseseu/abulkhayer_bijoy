@@ -1,7 +1,6 @@
 package com.android.abulkhayerbijoy.activity;
 
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -21,6 +20,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.os.Looper;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         buttonSales.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, SalesOutletListActivity.class);
+            Intent intent = new Intent(MainActivity.this, OutletListActivity.class);
             startActivity(intent);
             finish();
         });
@@ -372,7 +372,7 @@ public class MainActivity extends AppCompatActivity {
         this.doubleBackToExitPressedOnce = true;
         Toasty.info(this, "বাহির হতে আবার ব্যাক চাপুন।", Toast.LENGTH_SHORT).show();
 
-        new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
+        new Handler(Looper.getMainLooper()).postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
         //endregion
     }
 }

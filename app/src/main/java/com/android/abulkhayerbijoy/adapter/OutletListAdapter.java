@@ -18,7 +18,7 @@ import com.android.abulkhayerbijoy.utils.SystemHelper;
 import java.util.List;
 
 
-public class SalesOutletListAdapter extends RecyclerView.Adapter<SalesOutletListAdapter.MyViewHolder> {
+public class OutletListAdapter extends RecyclerView.Adapter<OutletListAdapter.MyViewHolder> {
 
     private List<Outlet> itemList;
     private LayoutInflater layoutInflater;
@@ -27,7 +27,7 @@ public class SalesOutletListAdapter extends RecyclerView.Adapter<SalesOutletList
     private int status;
     public Context context;
 
-    public SalesOutletListAdapter(List<Outlet> itemList, OrderItemListener listener, int status) {
+    public OutletListAdapter(List<Outlet> itemList, OrderItemListener listener, int status) {
         this.itemList = itemList;
         this.listener = listener;
         this.status = status;

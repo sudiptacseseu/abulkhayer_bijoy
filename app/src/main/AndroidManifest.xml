@@ -39,11 +39,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.SalesOutletListActivity"
+            android:name=".activity.OutletListActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.StoreDetailsActivity"
+            android:name=".activity.OutletDetailsActivity"
             android:screenOrientation="portrait" />
     </application>
 

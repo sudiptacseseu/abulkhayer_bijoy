@@ -30,7 +30,7 @@ import java.util.Locale;
 
 import es.dmoral.toasty.Toasty;
 
-public class StoreDetailsListAdapter extends RecyclerView.Adapter<StoreDetailsListAdapter.DeliveryManChallanItemViewHolder> {
+public class OutletDetailsListAdapter extends RecyclerView.Adapter<OutletDetailsListAdapter.DeliveryManChallanItemViewHolder> {
 
     private List<Challan> mDeliveryManChallanItems;
     private LayoutInflater layoutInflater;
@@ -40,7 +40,7 @@ public class StoreDetailsListAdapter extends RecyclerView.Adapter<StoreDetailsLi
     public DatabaseCallRepository dbCallRepository;
     public android.os.Handler callback;
 
-    public StoreDetailsListAdapter(List<Challan> mDeliveryManChallanItems, Handler callback) {
+    public OutletDetailsListAdapter(List<Challan> mDeliveryManChallanItems, Handler callback) {
         this.mDeliveryManChallanItems = mDeliveryManChallanItems;
         this.callback = callback;
         notifyDataSetChanged();

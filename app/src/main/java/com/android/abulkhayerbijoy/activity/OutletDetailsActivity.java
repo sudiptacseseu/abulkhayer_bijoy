@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.abulkhayerbijoy.R;
-import com.android.abulkhayerbijoy.adapter.StoreDetailsListAdapter;
+import com.android.abulkhayerbijoy.adapter.OutletDetailsListAdapter;
 import com.android.abulkhayerbijoy.model.Challan;
 import com.android.abulkhayerbijoy.model.Order;
 import com.android.abulkhayerbijoy.model.OrderItem;
@@ -34,7 +34,7 @@ import com.android.abulkhayerbijoy.utils.BanglaFontUtil;
 import com.android.abulkhayerbijoy.utils.MemoHelper;
 import com.android.abulkhayerbijoy.utils.SystemConstants;
 import com.android.abulkhayerbijoy.utils.SystemHelper;
-import com.android.abulkhayerbijoy.viewmodel.StoreDetailsActivityViewModel;
+import com.android.abulkhayerbijoy.viewmodel.OutletDetailsActivityViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,13 +46,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class StoreDetailsActivity extends AppCompatActivity {
+public class OutletDetailsActivity extends AppCompatActivity {
 
-    private StoreDetailsActivityViewModel mViewModel;
+    private OutletDetailsActivityViewModel mViewModel;
     private Context context;
     private MemoHelper memoInstance;
     private RecyclerView recyclerView;
-    private StoreDetailsListAdapter adapter;
+    private OutletDetailsListAdapter adapter;
     private DatabaseCallRepository dbCallRepository;
     private BanglaFontUtil banglaUtil = null;
 
@@ -89,8 +89,8 @@ public class StoreDetailsActivity extends AppCompatActivity {
         intent = getIntent();
         bundle = intent.getExtras();
 
-        mViewModel = new ViewModelProvider(StoreDetailsActivity.this).get(StoreDetailsActivityViewModel.class);
-        context = StoreDetailsActivity.this;
+        mViewModel = new ViewModelProvider(OutletDetailsActivity.this).get(OutletDetailsActivityViewModel.class);
+        context = OutletDetailsActivity.this;
 
         memoInstance = MemoHelper.instance();
 
@@ -114,8 +114,8 @@ public class StoreDetailsActivity extends AppCompatActivity {
 
         editTextCashCollection.setOnClickListener(view -> {
 
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(StoreDetailsActivity.this);
-            LayoutInflater inflater = LayoutInflater.from(StoreDetailsActivity.this);
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(OutletDetailsActivity.this);
+            LayoutInflater inflater = LayoutInflater.from(OutletDetailsActivity.this);
             View dialogView = inflater.inflate(R.layout.custom_user_input_picker_dialog, null);
             dialogBuilder.setView(dialogView);
 
@@ -128,7 +128,7 @@ public class StoreDetailsActivity extends AppCompatActivity {
             buttonConfirm.setOnClickListener(view1 -> {
 
                 if(editText.getText().toString().isEmpty()){
-                    Toasty.error(StoreDetailsActivity.this, "দয়া করে পরিমাণ অ্যাড করুন!").show();
+                    Toasty.error(OutletDetailsActivity.this, "দয়া করে পরিমাণ অ্যাড করুন!").show();
                 }
                 else{
                     cashCollection = SystemHelper.formatDouble(Double.valueOf(editText.getText().toString()));
@@ -136,7 +136,7 @@ public class StoreDetailsActivity extends AppCompatActivity {
                     double netCredit = SystemHelper.formatDouble(totalDue - cashCollection);
 
                     if(cashCollection > totalDue){
-                        Toasty.error(StoreDetailsActivity.this, "বাকির থেকে বেশি পেমেন্ট গ্রহণযোগ্য নয়!").show();
+                        Toasty.error(OutletDetailsActivity.this, "বাকির থেকে বেশি পেমেন্ট গ্রহণযোগ্য নয়!").show();
                     }else{
                         editTextCashCollection.setText(banglaUtil.NumberToBangla(String.valueOf(cashCollection)));
                         textViewNetCredit.setText(banglaUtil.NumberToBangla(String.valueOf(netCredit)));
@@ -151,13 +151,13 @@ public class StoreDetailsActivity extends AppCompatActivity {
         btnSubmit.setOnClickListener(view -> {
 
             if (netValue == 0.00){
-                Toasty.error(StoreDetailsActivity.this, "দয়া করে পণ্য অ্যাড করুন!").show();
+                Toasty.error(OutletDetailsActivity.this, "দয়া করে পণ্য অ্যাড করুন!").show();
             }
 
             else if (cashCollection == 0.00) {
 
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(StoreDetailsActivity.this);
-                LayoutInflater inflater = LayoutInflater.from(StoreDetailsActivity.this);
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(OutletDetailsActivity.this);
+                LayoutInflater inflater = LayoutInflater.from(OutletDetailsActivity.this);
                 View dialogView = inflater.inflate(R.layout.custom_user_confirmation_dialog, null);
                 dialogBuilder.setView(dialogView);
 
@@ -247,7 +247,7 @@ public class StoreDetailsActivity extends AppCompatActivity {
                     @Override
                     public void onNext(List<Challan> deliveryManChallanItems) {
                         if (deliveryManChallanItems != null) {
-                            adapter = new StoreDetailsListAdapter(deliveryManChallanItems, uiUpdateCallback);
+                            adapter = new OutletDetailsListAdapter(deliveryManChallanItems, uiUpdateCallback);
                             recyclerView.setAdapter(adapter);
                             previousCashCollection = getNetCashCollection(deliveryManChallanItems);
                             doCalculatePromotion();
@@ -340,7 +340,7 @@ public class StoreDetailsActivity extends AppCompatActivity {
                         editTextCashCollection.setText(banglaUtil.NumberToBangla(String.valueOf(cashCollection)));
 
                         if(cashCollection > netCredit){
-                            Toasty.error(StoreDetailsActivity.this, "বাকির থেকে বেশি পেমেন্ট গ্রহণযোগ্য নয়!").show();
+                            Toasty.error(OutletDetailsActivity.this, "বাকির থেকে বেশি পেমেন্ট গ্রহণযোগ্য নয়!").show();
                         }else{
                             textViewNetCredit.setText(banglaUtil.NumberToBangla(String.valueOf(netCredit)));
                         }
@@ -374,16 +374,16 @@ public class StoreDetailsActivity extends AppCompatActivity {
                     @Override
                     public void onComplete() {
 
-                        Toasty.info(StoreDetailsActivity.this, "অর্ডারটি সফলভাবে সেভ হয়েছে!").show();
+                        Toasty.info(OutletDetailsActivity.this, "অর্ডারটি সফলভাবে সেভ হয়েছে!").show();
                         memoInstance.clear();
-                        Intent intent = new Intent(StoreDetailsActivity.this, SalesOutletListActivity.class);
+                        Intent intent = new Intent(OutletDetailsActivity.this, OutletListActivity.class);
                         startActivity(intent);
                         finish();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Toasty.error(StoreDetailsActivity.this, e.getMessage(), Toast.LENGTH_SHORT, true).show();
+                        Toasty.error(OutletDetailsActivity.this, e.getMessage(), Toast.LENGTH_SHORT, true).show();
                     }
                 });
     }
@@ -393,7 +393,7 @@ public class StoreDetailsActivity extends AppCompatActivity {
         super.onBackPressed();
         if (memoInstance != null)
             memoInstance.clear();
-        Intent intent = new Intent(StoreDetailsActivity.this, SalesOutletListActivity.class);
+        Intent intent = new Intent(OutletDetailsActivity.this, OutletListActivity.class);
         startActivity(intent);
         finish();
 

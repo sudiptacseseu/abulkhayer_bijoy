@@ -70,16 +70,17 @@ public class ChallanListAdapter extends RecyclerView.Adapter<ChallanListAdapter.
         holder.tvSkuName.setText(currentChallan.getBanglaName());
         holder.tvSkuPrice.setText(banglaUtil.NumberToBangla(String.valueOf(currentChallan.getPcsRate())));
 
-        String stkQty = editTextNumberPicker.getText().toString();
+        String requiredStockQtyByUser = editTextNumberPicker.getText().toString();
         int challanQuantity = currentChallan.getStockQty();
-        int stkQtyInVal = Integer.parseInt(stkQty);
-        if (stkQtyInVal == 0){
+        int requiredStockQtyInVal = Integer.parseInt(requiredStockQtyByUser);
+        if (requiredStockQtyInVal == 0){
             holder.tvChallanQty.setText(challanQuantity <= 0 ? banglaUtil.NumberToBangla(String.valueOf(0)) : banglaUtil.NumberToBangla(String.valueOf(challanQuantity)));
             holder.tvStock.setText(banglaUtil.NumberToBangla(String.valueOf(currentChallan.remaining)));
         }
 
         holder.numberPicker.setValueChangedListener((value, action) -> {
-            double price = mDeliveryManChallanItems.get(position).getPcsRate();
+            //double price = mDeliveryManChallanItems.get(position).getPcsRate();
+            double price = currentChallan.getPcsRate();
             if (value < 0) {
                 value = 0;
 

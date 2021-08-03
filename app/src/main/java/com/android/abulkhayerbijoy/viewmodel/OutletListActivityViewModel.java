@@ -13,12 +13,12 @@ import java.util.List;
 
 import io.reactivex.Observable;
 
-public class SalesOutletListActivityViewModel extends AndroidViewModel {
+public class OutletListActivityViewModel extends AndroidViewModel {
 
     private NetworkCallRepository nRepository;
     private DatabaseCallRepository dbRepository;
 
-    public SalesOutletListActivityViewModel(Application application) {
+    public OutletListActivityViewModel(Application application) {
         super(application);
         nRepository = new NetworkCallRepository(application);
         dbRepository = new DatabaseCallRepository(application);
